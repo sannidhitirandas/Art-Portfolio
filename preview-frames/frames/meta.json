@@ -1,0 +1,535 @@
+{
+ "version": 1,
+ "demo": true,
+ "width": 1280,
+ "height": 720,
+ "count": 64,
+ "angleStep": 5.625,
+ "face": {
+  "x": 0.506,
+  "y": 0.375
+ },
+ "bg": "#1a1228",
+ "centerSrcFrame": 191,
+ "source": {
+  "file": "character.demo.mp4",
+  "fps": 24.0,
+  "frames": 192,
+  "duration": 8.0
+ },
+ "gapCount": 0,
+ "frames": [
+  {
+   "index": 0,
+   "srcFrame": 57,
+   "targetAngle": 0.0,
+   "measuredAngle": 0.36,
+   "error": 0.36,
+   "magnitude": 1.002
+  },
+  {
+   "index": 1,
+   "srcFrame": 57,
+   "targetAngle": 5.62,
+   "measuredAngle": 0.36,
+   "error": 5.27,
+   "magnitude": 1.002
+  },
+  {
+   "index": 2,
+   "srcFrame": 57,
+   "targetAngle": 11.25,
+   "measuredAngle": 0.36,
+   "error": 10.89,
+   "magnitude": 1.002
+  },
+  {
+   "index": 3,
+   "srcFrame": 62,
+   "targetAngle": 16.88,
+   "measuredAngle": 6.4,
+   "error": 10.48,
+   "magnitude": 0.95
+  },
+  {
+   "index": 4,
+   "srcFrame": 64,
+   "targetAngle": 22.5,
+   "measuredAngle": 11.63,
+   "error": 10.87,
+   "magnitude": 0.909
+  },
+  {
+   "index": 5,
+   "srcFrame": 66,
+   "targetAngle": 28.12,
+   "measuredAngle": 18.5,
+   "error": 9.63,
+   "magnitude": 0.874
+  },
+  {
+   "index": 6,
+   "srcFrame": 76,
+   "targetAngle": 33.75,
+   "measuredAngle": 45.5,
+   "error": 11.75,
+   "magnitude": 0.863
+  },
+  {
+   "index": 7,
+   "srcFrame": 76,
+   "targetAngle": 39.38,
+   "measuredAngle": 45.5,
+   "error": 6.12,
+   "magnitude": 0.863
+  },
+  {
+   "index": 8,
+   "srcFrame": 76,
+   "targetAngle": 45.0,
+   "measuredAngle": 45.5,
+   "error": 0.5,
+   "magnitude": 0.863
+  },
+  {
+   "index": 9,
+   "srcFrame": 76,
+   "targetAngle": 50.62,
+   "measuredAngle": 45.5,
+   "error": 5.13,
+   "magnitude": 0.863
+  },
+  {
+   "index": 10,
+   "srcFrame": 76,
+   "targetAngle": 56.25,
+   "measuredAngle": 45.5,
+   "error": 10.75,
+   "magnitude": 0.863
+  },
+  {
+   "index": 11,
+   "srcFrame": 81,
+   "targetAngle": 61.88,
+   "measuredAngle": 51.37,
+   "error": 10.5,
+   "magnitude": 0.82
+  },
+  {
+   "index": 12,
+   "srcFrame": 83,
+   "targetAngle": 67.5,
+   "measuredAngle": 56.7,
+   "error": 10.8,
+   "magnitude": 0.792
+  },
+  {
+   "index": 13,
+   "srcFrame": 85,
+   "targetAngle": 73.12,
+   "measuredAngle": 63.32,
+   "error": 9.8,
+   "magnitude": 0.766
+  },
+  {
+   "index": 14,
+   "srcFrame": 96,
+   "targetAngle": 78.75,
+   "measuredAngle": 90.23,
+   "error": 11.48,
+   "magnitude": 0.774
+  },
+  {
+   "index": 15,
+   "srcFrame": 96,
+   "targetAngle": 84.38,
+   "measuredAngle": 90.23,
+   "error": 5.86,
+   "magnitude": 0.774
+  },
+  {
+   "index": 16,
+   "srcFrame": 96,
+   "targetAngle": 90.0,
+   "measuredAngle": 90.23,
+   "error": 0.23,
+   "magnitude": 0.774
+  },
+  {
+   "index": 17,
+   "srcFrame": 96,
+   "targetAngle": 95.62,
+   "measuredAngle": 90.23,
+   "error": 5.39,
+   "magnitude": 0.774
+  },
+  {
+   "index": 18,
+   "srcFrame": 96,
+   "targetAngle": 101.25,
+   "measuredAngle": 90.23,
+   "error": 11.02,
+   "magnitude": 0.774
+  },
+  {
+   "index": 19,
+   "srcFrame": 106,
+   "targetAngle": 106.88,
+   "measuredAngle": 116.98,
+   "error": 10.1,
+   "magnitude": 0.768
+  },
+  {
+   "index": 20,
+   "srcFrame": 108,
+   "targetAngle": 112.5,
+   "measuredAngle": 123.59,
+   "error": 11.09,
+   "magnitude": 0.792
+  },
+  {
+   "index": 21,
+   "srcFrame": 110,
+   "targetAngle": 118.12,
+   "measuredAngle": 128.74,
+   "error": 10.62,
+   "magnitude": 0.823
+  },
+  {
+   "index": 22,
+   "srcFrame": 115,
+   "targetAngle": 123.75,
+   "measuredAngle": 134.39,
+   "error": 10.64,
+   "magnitude": 0.863
+  },
+  {
+   "index": 23,
+   "srcFrame": 115,
+   "targetAngle": 129.38,
+   "measuredAngle": 134.39,
+   "error": 5.02,
+   "magnitude": 0.863
+  },
+  {
+   "index": 24,
+   "srcFrame": 115,
+   "targetAngle": 135.0,
+   "measuredAngle": 134.39,
+   "error": 0.61,
+   "magnitude": 0.863
+  },
+  {
+   "index": 25,
+   "srcFrame": 115,
+   "targetAngle": 140.62,
+   "measuredAngle": 134.39,
+   "error": 6.23,
+   "magnitude": 0.863
+  },
+  {
+   "index": 26,
+   "srcFrame": 115,
+   "targetAngle": 146.25,
+   "measuredAngle": 134.39,
+   "error": 11.86,
+   "magnitude": 0.863
+  },
+  {
+   "index": 27,
+   "srcFrame": 125,
+   "targetAngle": 151.88,
+   "measuredAngle": 162.0,
+   "error": 10.13,
+   "magnitude": 0.879
+  },
+  {
+   "index": 28,
+   "srcFrame": 127,
+   "targetAngle": 157.5,
+   "measuredAngle": 168.56,
+   "error": 11.06,
+   "magnitude": 0.915
+  },
+  {
+   "index": 29,
+   "srcFrame": 129,
+   "targetAngle": 163.12,
+   "measuredAngle": 173.93,
+   "error": 10.8,
+   "magnitude": 0.956
+  },
+  {
+   "index": 30,
+   "srcFrame": 134,
+   "targetAngle": 168.75,
+   "measuredAngle": 179.66,
+   "error": 10.91,
+   "magnitude": 1.009
+  },
+  {
+   "index": 31,
+   "srcFrame": 134,
+   "targetAngle": 174.38,
+   "measuredAngle": 179.66,
+   "error": 5.28,
+   "magnitude": 1.009
+  },
+  {
+   "index": 32,
+   "srcFrame": 134,
+   "targetAngle": 180.0,
+   "measuredAngle": 179.66,
+   "error": 0.34,
+   "magnitude": 1.009
+  },
+  {
+   "index": 33,
+   "srcFrame": 134,
+   "targetAngle": 185.62,
+   "measuredAngle": 179.66,
+   "error": 5.97,
+   "magnitude": 1.009
+  },
+  {
+   "index": 34,
+   "srcFrame": 134,
+   "targetAngle": 191.25,
+   "measuredAngle": 179.66,
+   "error": 11.59,
+   "magnitude": 1.009
+  },
+  {
+   "index": 35,
+   "srcFrame": 139,
+   "targetAngle": 196.88,
+   "measuredAngle": 186.79,
+   "error": 10.08,
+   "magnitude": 0.94
+  },
+  {
+   "index": 36,
+   "srcFrame": 141,
+   "targetAngle": 202.5,
+   "measuredAngle": 192.45,
+   "error": 10.05,
+   "magnitude": 0.9
+  },
+  {
+   "index": 37,
+   "srcFrame": 143,
+   "targetAngle": 208.12,
+   "measuredAngle": 199.37,
+   "error": 8.76,
+   "magnitude": 0.866
+  },
+  {
+   "index": 38,
+   "srcFrame": 153,
+   "targetAngle": 213.75,
+   "measuredAngle": 224.73,
+   "error": 10.98,
+   "magnitude": 0.856
+  },
+  {
+   "index": 39,
+   "srcFrame": 153,
+   "targetAngle": 219.38,
+   "measuredAngle": 224.73,
+   "error": 5.35,
+   "magnitude": 0.856
+  },
+  {
+   "index": 40,
+   "srcFrame": 153,
+   "targetAngle": 225.0,
+   "measuredAngle": 224.73,
+   "error": 0.27,
+   "magnitude": 0.856
+  },
+  {
+   "index": 41,
+   "srcFrame": 153,
+   "targetAngle": 230.62,
+   "measuredAngle": 224.73,
+   "error": 5.9,
+   "magnitude": 0.856
+  },
+  {
+   "index": 42,
+   "srcFrame": 153,
+   "targetAngle": 236.25,
+   "measuredAngle": 224.73,
+   "error": 11.52,
+   "magnitude": 0.856
+  },
+  {
+   "index": 43,
+   "srcFrame": 159,
+   "targetAngle": 241.88,
+   "measuredAngle": 230.18,
+   "error": 11.7,
+   "magnitude": 0.825
+  },
+  {
+   "index": 44,
+   "srcFrame": 162,
+   "targetAngle": 247.5,
+   "measuredAngle": 235.5,
+   "error": 12.0,
+   "magnitude": 0.803
+  },
+  {
+   "index": 45,
+   "srcFrame": 165,
+   "targetAngle": 253.12,
+   "measuredAngle": 241.13,
+   "error": 12.0,
+   "magnitude": 0.788
+  },
+  {
+   "index": 46,
+   "srcFrame": 169,
+   "targetAngle": 258.75,
+   "measuredAngle": 247.11,
+   "error": 11.64,
+   "magnitude": 0.783
+  },
+  {
+   "index": 47,
+   "srcFrame": 20,
+   "targetAngle": 264.38,
+   "measuredAngle": 270.1,
+   "error": 5.73,
+   "magnitude": 0.751
+  },
+  {
+   "index": 48,
+   "srcFrame": 20,
+   "targetAngle": 270.0,
+   "measuredAngle": 270.1,
+   "error": 0.1,
+   "magnitude": 0.751
+  },
+  {
+   "index": 49,
+   "srcFrame": 20,
+   "targetAngle": 275.62,
+   "measuredAngle": 270.1,
+   "error": 5.52,
+   "magnitude": 0.751
+  },
+  {
+   "index": 50,
+   "srcFrame": 20,
+   "targetAngle": 281.25,
+   "measuredAngle": 270.1,
+   "error": 11.15,
+   "magnitude": 0.751
+  },
+  {
+   "index": 51,
+   "srcFrame": 30,
+   "targetAngle": 286.88,
+   "measuredAngle": 298.63,
+   "error": 11.76,
+   "magnitude": 0.756
+  },
+  {
+   "index": 52,
+   "srcFrame": 31,
+   "targetAngle": 292.5,
+   "measuredAngle": 302.11,
+   "error": 9.61,
+   "magnitude": 0.769
+  },
+  {
+   "index": 53,
+   "srcFrame": 33,
+   "targetAngle": 298.12,
+   "measuredAngle": 307.77,
+   "error": 9.65,
+   "magnitude": 0.798
+  },
+  {
+   "index": 54,
+   "srcFrame": 39,
+   "targetAngle": 303.75,
+   "measuredAngle": 315.0,
+   "error": 11.25,
+   "magnitude": 0.847
+  },
+  {
+   "index": 55,
+   "srcFrame": 39,
+   "targetAngle": 309.38,
+   "measuredAngle": 315.0,
+   "error": 5.63,
+   "magnitude": 0.847
+  },
+  {
+   "index": 56,
+   "srcFrame": 39,
+   "targetAngle": 315.0,
+   "measuredAngle": 315.0,
+   "error": 0.0,
+   "magnitude": 0.847
+  },
+  {
+   "index": 57,
+   "srcFrame": 39,
+   "targetAngle": 320.62,
+   "measuredAngle": 315.0,
+   "error": 5.62,
+   "magnitude": 0.847
+  },
+  {
+   "index": 58,
+   "srcFrame": 47,
+   "targetAngle": 326.25,
+   "measuredAngle": 337.05,
+   "error": 10.8,
+   "magnitude": 0.847
+  },
+  {
+   "index": 59,
+   "srcFrame": 48,
+   "targetAngle": 331.88,
+   "measuredAngle": 340.79,
+   "error": 8.91,
+   "magnitude": 0.858
+  },
+  {
+   "index": 60,
+   "srcFrame": 50,
+   "targetAngle": 337.5,
+   "measuredAngle": 347.88,
+   "error": 10.38,
+   "magnitude": 0.893
+  },
+  {
+   "index": 61,
+   "srcFrame": 52,
+   "targetAngle": 343.12,
+   "measuredAngle": 353.46,
+   "error": 10.34,
+   "magnitude": 0.935
+  },
+  {
+   "index": 62,
+   "srcFrame": 57,
+   "targetAngle": 348.75,
+   "measuredAngle": 0.36,
+   "error": 11.61,
+   "magnitude": 1.002
+  },
+  {
+   "index": 63,
+   "srcFrame": 57,
+   "targetAngle": 354.38,
+   "measuredAngle": 0.36,
+   "error": 5.98,
+   "magnitude": 1.002
+  }
+ ]
+}
