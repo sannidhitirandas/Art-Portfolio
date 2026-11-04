@@ -1,0 +1,17 @@
+.portfolio-page{width:100%;overflow:clip;background:#21152b;color:#fff4f8}
+.section-pad{padding:clamp(76px,10vw,145px) clamp(26px,9vw,140px)}
+.art-section{background:#171020}
+.section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:35px;max-width:1200px;margin:0 auto}
+.eyebrow{margin:0;color:#f3bbd2;font-size:9px;font-weight:600;letter-spacing:.24em;line-height:1.5}
+.section-heading h2,.about-section h2,.contact-section h2{margin:22px 0 0;color:#fff4f8;font:400 clamp(48px,7vw,96px)/.94 "Cormorant Garamond",serif;letter-spacing:-.045em}
+.section-heading h2 em,.about-section h2 em,.contact-section h2 em{color:#f3bbd2;font-weight:400}
+.section-heading__aside{max-width:280px;margin:0 0 8px;color:#c0afc5;font:18px/1.45 "Cormorant Garamond",serif}
+.gallery-note{margin:0;padding:0 20px 55px;color:#c0afc5;font-size:11px;letter-spacing:.04em;text-align:center}
+.about-section{display:grid;grid-template-columns:1fr 2fr;gap:35px;background:#21152b}
+.about-section__content{max-width:690px}.about-section__overline{margin-bottom:24px}.about-section__bio{max-width:560px;margin:32px 0 0;color:#d8cbdc;font:clamp(18px,2vw,24px)/1.5 "Cormorant Garamond",serif}
+.about-section__signature{display:flex;align-items:center;gap:14px;margin-top:38px;color:#f3bbd2;font:italic 26px "Cormorant Garamond",serif}.about-section__signature-rule{width:48px;height:1px;background:#f3bbd2}
+.about-section__footnote{grid-column:2;margin:25px 0 0;color:#a997b0;font-size:10px;letter-spacing:.04em}
+.contact-section{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;background:#171020}.contact-section__copy>p:last-child{max-width:300px;margin:25px 0 0;color:#c0afc5;font:18px/1.4 "Cormorant Garamond",serif}
+.contact-link{display:flex;align-items:center;gap:24px;padding:17px 0;border-bottom:1px solid #f3bbd2;color:#f3bbd2;font-size:12px;letter-spacing:.08em}.contact-link span:last-child{font-size:20px}.contact-section__replace-note{position:absolute;align-self:flex-end;margin-bottom:-34px;color:#887891;font-size:9px}
+.site-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px clamp(26px,9vw,140px);background:#100b16;color:#a997b0;font-size:10px}.site-footer p{margin:0}.brand-lockup{color:#f3bbd2;font-size:10px;font-weight:600;letter-spacing:.22em}.back-to-top{color:#c0afc5;font-size:9px;letter-spacing:.18em}
+@media(max-width:700px){.section-heading{display:block}.section-heading__aside{margin-top:24px}.about-section{grid-template-columns:1fr;gap:22px}.about-section__footnote{grid-column:1}.contact-section{align-items:flex-start;flex-direction:column}.contact-section__replace-note{position:static;margin:0}.site-footer{flex-wrap:wrap}.site-footer p{order:3;width:100%}}
