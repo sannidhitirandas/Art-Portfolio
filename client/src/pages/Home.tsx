@@ -14,7 +14,6 @@ const reelRows = buildReelRows(artwork, 5, 36);
 const navigation = [
   { label: "MY ART", href: "#my-art" },
   { label: "ABOUT", href: "#about" },
-  { label: "CONTACT", href: "#contact" },
 ];
 
 export default function Home() {
@@ -61,6 +60,33 @@ export default function Home() {
         <LivingPortrait />
       </section>
 
+
+      <section
+        className="about-section section-pad"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <div className="about-section__index eyebrow">01 / ABOUT</div>
+        <div className="about-section__content">
+          <p className="eyebrow about-section__overline">A NOTE FROM SUNNY</p>
+          <h2 id="about-title">
+            Made from the
+            <br />
+            <em>little things.</em>
+          </h2>
+          <p className="about-section__bio">{portfolioCopy.biography}</p>
+          <div className="about-section__signature">
+            <span
+              className="about-section__signature-rule"
+              aria-hidden="true"
+            />
+            <span>Sunny</span>
+          </div>
+        </div>
+        <p className="about-section__footnote">
+          A little home for the art, ideas, and moments still taking shape.
+        </p>
+      </section>
       <section
         className="art-section section-pad"
         id="my-art"
@@ -68,7 +94,7 @@ export default function Home() {
       >
         <div className="section-heading">
           <div>
-            <p className="eyebrow section-heading__eyebrow">01 / MY ART</p>
+            <p className="eyebrow section-heading__eyebrow">02 / MY ART</p>
             <h2 id="art-title">
               A little of what
               <br />
@@ -106,33 +132,6 @@ export default function Home() {
       </section>
 
       <section
-        className="about-section section-pad"
-        id="about"
-        aria-labelledby="about-title"
-      >
-        <div className="about-section__index eyebrow">02 / ABOUT</div>
-        <div className="about-section__content">
-          <p className="eyebrow about-section__overline">A NOTE FROM SUNNY</p>
-          <h2 id="about-title">
-            Made from the
-            <br />
-            <em>little things.</em>
-          </h2>
-          <p className="about-section__bio">{portfolioCopy.biography}</p>
-          <div className="about-section__signature">
-            <span
-              className="about-section__signature-rule"
-              aria-hidden="true"
-            />
-            <span>Sunny</span>
-          </div>
-        </div>
-        <p className="about-section__footnote">
-          A little home for the art, ideas, and moments still taking shape.
-        </p>
-      </section>
-
-      <section
         className="contact-section section-pad"
         id="contact"
         aria-labelledby="contact-title"
@@ -155,15 +154,6 @@ export default function Home() {
         </span>
       </section>
 
-      <footer className="site-footer">
-        <a className="brand-lockup brand-lockup--footer" href="#sunny">
-          <span>SUNNY</span>
-        </a>
-        <p>Made with a little imagination.</p>
-        <a href="#top" className="back-to-top">
-          BACK TO TOP ↑
-        </a>
-      </footer>
     </main>
   );
 }
