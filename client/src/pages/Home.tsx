@@ -83,8 +83,8 @@ export default function Home() {
         id="my-art"
         aria-labelledby="art-title"
       >
-        <div className="section-heading">
-          <div>
+        <div className="reveal-child section-heading">
+          <div className="reveal-child">
             <p className="eyebrow section-heading__eyebrow">01 / MY ART</p>
             <h2 id="art-title">
               A little of what
@@ -92,13 +92,13 @@ export default function Home() {
               <em>I make.</em>
             </h2>
           </div>
-          <p className="section-heading__aside">
+          <p className="reveal-child section-heading__aside">
             A growing collection of small thoughts, soft colors, and things
             still taking shape.
           </p>
         </div>
 
-        <div className="art-gallery-stack">
+        <div className="reveal-child art-gallery-stack">
           <div className="art-gallery-group">
             <ReelGallery rows={reelRows} />
             <p className="gallery-note">
@@ -127,8 +127,10 @@ export default function Home() {
         id="about"
         aria-labelledby="about-title"
       >
-        <div className="about-section__index eyebrow">02 / ABOUT</div>
-        <div className="about-section__content">
+        <div className="reveal-child about-section__index eyebrow">
+          02 / ABOUT
+        </div>
+        <div className="reveal-child about-section__content">
           <p className="eyebrow about-section__overline">A NOTE FROM SUNNY</p>
           <h2 id="about-title">
             Made from the
@@ -144,7 +146,7 @@ export default function Home() {
             <span>Sunny</span>
           </div>
         </div>
-        <p className="about-section__footnote">
+        <p className="reveal-child about-section__footnote">
           A little home for the art, ideas, and moments still taking shape.
         </p>
       </section>
@@ -154,7 +156,7 @@ export default function Home() {
         id="contact"
         aria-labelledby="contact-title"
       >
-        <div className="contact-section__copy">
+        <div className="reveal-child contact-section__copy">
           <p className="eyebrow">03 / CONTACT</p>
           <h2 id="contact-title">
             Have a little
@@ -163,11 +165,14 @@ export default function Home() {
           </h2>
           <p>For kind notes, creative thoughts, or simply to say hi.</p>
         </div>
-        <a className="contact-link" href={`mailto:${portfolioCopy.email}`}>
+        <a
+          className="reveal-child contact-link"
+          href={`mailto:${portfolioCopy.email}`}
+        >
           <span>{portfolioCopy.email}</span>
           <span aria-hidden="true">↗</span>
         </a>
-        <span className="contact-section__replace-note">
+        <span className="reveal-child contact-section__replace-note">
           Replace this email with your own when you’re ready.
         </span>
       </section>

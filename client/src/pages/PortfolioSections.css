@@ -1,6 +1,6 @@
-.portfolio-page{width:100%;overflow:clip;background:#21152b;color:#fff4f8}
+.portfolio-page{width:100%;overflow:clip;background:#21152b;color:#fff4f8;scroll-behavior: smooth}
 
-/* Reveal Animations */
+/* Reveal Animations - Staggered */
 .reveal {
   opacity: 0;
   transform: translateY(30px);
@@ -11,6 +11,23 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Stagger delays for child elements */
+.reveal-child {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.visible .reveal-child {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal .reveal-child:nth-child(1) { transition-delay: 0.1s; }
+.reveal .reveal-child:nth-child(2) { transition-delay: 0.2s; }
+.reveal .reveal-child:nth-child(3) { transition-delay: 0.3s; }
+.reveal .reveal-child:nth-child(4) { transition-delay: 0.4s; }
 
 .section-pad{padding:clamp(76px,10vw,145px) clamp(26px,9vw,140px)}
 .art-section{background:#171020}
