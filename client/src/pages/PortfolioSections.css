@@ -1,4 +1,16 @@
-.portfolio-page{width:100%;overflow:clip;background:#21152b;color:#fff4f8;scroll-behavior: smooth}
+.portfolio-page{width:100%;overflow-x:clip;background:#21152b;color:#fff4f8;scroll-behavior: smooth}
+
+/* Sticky Section Base */
+.sticky-section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 /* Reveal Animations - Staggered */
 .reveal {
@@ -37,7 +49,7 @@
 .section-heading h2 em,.about-section h2 em,.contact-section h2 em{color:#f3bbd2;font-weight:400}
 .section-heading__aside{max-width:280px;margin:0 0 8px;color:#c0afc5;font:18px/1.45 "Cormorant Garamond",serif}
 .gallery-note{margin:0;padding:0 20px 55px;color:#c0afc5;font-size:11px;letter-spacing:.04em;text-align:center}
-.about-section{display:grid;grid-template-columns:1fr 2fr;gap:35px;background:#21152b}
+.about-section{display:grid;grid-template-columns:1fr 2fr;gap:35px;background:transparent}
 .about-section__content{max-width:690px}.about-section__overline{margin-bottom:24px}.about-section__bio{max-width:560px;margin:32px 0 0;color:#d8cbdc;font:clamp(18px,2vw,24px)/1.5 "Cormorant Garamond",serif}
 .about-section__signature{display:flex;align-items:center;gap:14px;margin-top:38px;color:#f3bbd2;font:italic 26px "Cormorant Garamond",serif}.about-section__signature-rule{width:48px;height:1px;background:#f3bbd2}
 .about-section__footnote{grid-column:2;margin:25px 0 0;color:#a997b0;font-size:10px;letter-spacing:.04em}

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import LivingPortrait from "../components/LivingPortrait";
 import ReelGallery from "../components/ReelGallery";
 import SpinShutter from "../components/SpinShutter";
@@ -17,6 +18,31 @@ const navigation = [
   { label: "ABOUT", href: "#about" },
   { label: "CONTACT", href: "#contact" },
 ];
+
+function StickySection({ children, id, className, index }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Option 3: Zoom-Through / Scale effect
+  // As the section reaches the center, it's full size.
+  // As it leaves, it shrinks slightly (0.95) to create depth.
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 0.95]);
+  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+
+  return (
+    <div ref={ref} className="sticky-section" style={{ zIndex: index }}>
+      <motion.div
+        style={{ scale, opacity }}
+        className={`w-full h-full flex flex-col justify-center ${className}`}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Home() {
   useEffect(() => {
@@ -78,10 +104,10 @@ export default function Home() {
         <LivingPortrait />
       </section>
 
-      <section
-        className="art-section section-pad reveal"
+      <StickySection
+        index={1}
         id="my-art"
-        aria-labelledby="art-title"
+        className="art-section section-pad reveal"
       >
         <div className="reveal-child section-heading">
           <div className="reveal-child">
@@ -120,12 +146,13 @@ export default function Home() {
             <DepthRibbon items={depthRibbonItems} />
           </div>
         </div>
-      </section>
+      </StickySection>
 
-      <section
-        className="about-section section-pad reveal"
+      <StickySection
+        index={2}
         id="about"
-        aria-labelledby="about-title"
+        className="about-section section-pad reveal"
+        style={{ pointerEvents: "none" }}
       >
         <div className="reveal-child about-section__index eyebrow">
           02 / ABOUT
@@ -149,12 +176,12 @@ export default function Home() {
         <p className="reveal-child about-section__footnote">
           A little home for the art, ideas, and moments still taking shape.
         </p>
-      </section>
+      </StickySection>
 
-      <section
-        className="contact-section section-pad reveal"
+      <StickySection
+        index={3}
         id="contact"
-        aria-labelledby="contact-title"
+        className="contact-section section-pad reveal"
       >
         <div className="reveal-child contact-section__copy">
           <p className="eyebrow">03 / CONTACT</p>
@@ -175,7 +202,7 @@ export default function Home() {
         <span className="reveal-child contact-section__replace-note">
           Replace this email with your own when you’re ready.
         </span>
-      </section>
+      </StickySection>
 
       <footer className="site-footer reveal">
         <a className="brand-lockup brand-lockup--footer" href="#sunny">
