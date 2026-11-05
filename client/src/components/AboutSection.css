@@ -1,0 +1,110 @@
+/* About me: big gradient heading, scroll-lit paragraph, Contact button, four of Sunny's pieces floating in the corners. */
+
+.about-me {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  padding: 80px 20px;
+  overflow: clip;
+  background: #21152b;
+  font-family: "Kanit", system-ui, sans-serif;
+}
+
+.about-me__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  text-align: center;
+}
+
+.about-me__heading {
+  margin: 0;
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #7d6591 0%, #f3bbd2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.about-me__text {
+  max-width: 560px;
+  margin: 0;
+  color: #d9c6e6;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.625;
+}
+.about-me__word { display: inline-block; white-space: nowrap; }
+
+.about-me__contact {
+  display: inline-block;
+  padding: 14px 40px;
+  border-radius: 999px;
+  background: linear-gradient(123deg, #1c0a24 7%, #c0398f 37%, #7a3fc0 72%, #e08a4a 100%);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 4px rgba(190, 70, 170, 0.28), 4px 4px 12px #8a4ccc inset;
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+.about-me__contact:focus-visible { outline-offset: 2px; }
+
+/* corner art */
+.about-me__art {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+.about-me__art img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(8, 3, 14, 0.45);
+  user-select: none;
+}
+.about-me__art--tl { width: 120px; top: 4%; left: 1%; transform-origin: center; }
+.about-me__art--bl { width: 100px; bottom: 8%; left: 3%; }
+.about-me__art--tr { width: 120px; top: 4%; right: 1%; }
+.about-me__art--br { width: 130px; bottom: 8%; right: 3%; }
+.about-me__art--tl img { rotate: -7deg; }
+.about-me__art--bl img { rotate: 6deg; }
+.about-me__art--tr img { rotate: 8deg; }
+.about-me__art--br img { rotate: -5deg; }
+
+@media (min-width: 640px) {
+  .about-me { padding: 80px 32px; }
+  .about-me__content { gap: 80px; }
+  .about-me__contact { padding: 14px 40px; font-size: 0.875rem; }
+  .about-me__art--tl, .about-me__art--tr { width: 160px; }
+  .about-me__art--bl { width: 140px; left: 6%; }
+  .about-me__art--br { width: 170px; right: 6%; }
+  .about-me__art--tl { left: 2%; }
+  .about-me__art--tr { right: 2%; }
+}
+
+@media (min-width: 768px) {
+  .about-me { padding: 80px 40px; }
+  .about-me__content { gap: 96px; }
+  .about-me__contact { padding: 16px 48px; font-size: 1rem; }
+  .about-me__art--tl, .about-me__art--tr { width: 210px; }
+  .about-me__art--bl { width: 180px; left: 10%; }
+  .about-me__art--br { width: 220px; right: 10%; }
+  .about-me__art--tl { left: 4%; }
+  .about-me__art--tr { right: 4%; }
+}

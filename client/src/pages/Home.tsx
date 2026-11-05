@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import LivingPortrait from "../components/LivingPortrait";
+import AboutSection from "../components/AboutSection";
 import ReelGallery from "../components/ReelGallery";
 import SpinShutter from "../components/SpinShutter";
 import GradientCarousel from "../components/GradientCarousel";
@@ -11,6 +12,10 @@ import { depthRibbonItems } from "../data/depthRibbon";
 import "./PortfolioSections.css";
 
 const reelRows = buildReelRows(artwork, 5, 36);
+// four of Sunny's own pieces float in the corners of the About section
+const aboutCorners = [2, 9, 17, 26].map(
+  i => artwork[i].image as string
+) as [string, string, string, string];
 const navigation = [
   { label: "MY ART", href: "#my-art" },
   { label: "ABOUT", href: "#about" },
@@ -61,32 +66,11 @@ export default function Home() {
       </section>
 
 
-      <section
-        className="about-section section-pad"
-        id="about"
-        aria-labelledby="about-title"
-      >
-        <div className="about-section__index eyebrow">01 / ABOUT</div>
-        <div className="about-section__content">
-          <p className="eyebrow about-section__overline">A NOTE FROM SUNNY</p>
-          <h2 id="about-title">
-            Made from the
-            <br />
-            <em>little things.</em>
-          </h2>
-          <p className="about-section__bio">{portfolioCopy.biography}</p>
-          <div className="about-section__signature">
-            <span
-              className="about-section__signature-rule"
-              aria-hidden="true"
-            />
-            <span>Sunny</span>
-          </div>
-        </div>
-        <p className="about-section__footnote">
-          A little home for the art, ideas, and moments still taking shape.
-        </p>
-      </section>
+      <AboutSection
+        text={portfolioCopy.biography}
+        email={portfolioCopy.email}
+        corners={aboutCorners}
+      />
       <section
         className="art-section section-pad"
         id="my-art"
