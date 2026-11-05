@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { useEffect } from "react";
 import LivingPortrait from "../components/LivingPortrait";
 import ReelGallery from "../components/ReelGallery";
 import SpinShutter from "../components/SpinShutter";
@@ -18,6 +19,22 @@ const navigation = [
 ];
 
 export default function Home() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main id="top" className="portfolio-page">
       <section className="lh-hero" id="sunny" aria-labelledby="hero-title">
@@ -62,7 +79,7 @@ export default function Home() {
       </section>
 
       <section
-        className="art-section section-pad"
+        className="art-section section-pad reveal"
         id="my-art"
         aria-labelledby="art-title"
       >
@@ -106,7 +123,7 @@ export default function Home() {
       </section>
 
       <section
-        className="about-section section-pad"
+        className="about-section section-pad reveal"
         id="about"
         aria-labelledby="about-title"
       >
@@ -133,7 +150,7 @@ export default function Home() {
       </section>
 
       <section
-        className="contact-section section-pad"
+        className="contact-section section-pad reveal"
         id="contact"
         aria-labelledby="contact-title"
       >
@@ -155,7 +172,7 @@ export default function Home() {
         </span>
       </section>
 
-      <footer className="site-footer">
+      <footer className="site-footer reveal">
         <a className="brand-lockup brand-lockup--footer" href="#sunny">
           <span>SUNNY</span>
         </a>
