@@ -1,0 +1,127 @@
+/* Depth ribbon — a camera riding a 3D ribbon of artwork (canvas) */
+
+.dr {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  overflow: hidden;
+  isolation: isolate;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  color: #fff4f8;
+}
+
+.dr:focus-visible {
+  outline: 2px solid #dab6f4;
+  outline-offset: -2px;
+}
+
+.dr__stage {
+  position: absolute;
+  inset: 0;
+  touch-action: pan-y;
+}
+
+.dr__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dr__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.dr__content > * { pointer-events: auto; }
+
+.dr__open {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+  background: rgba(12, 7, 18, 0);
+  opacity: 0;
+  pointer-events: none;
+  cursor: zoom-out;
+  transition: opacity 0.4s ease, background 0.4s ease;
+}
+
+.dr__open.is-on {
+  opacity: 1;
+  pointer-events: auto;
+  background: rgba(12, 7, 18, 0.45);
+  backdrop-filter: blur(3px);
+}
+
+.dr__figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  transform: scale(0.94);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dr__open.is-on .dr__figure { transform: scale(1); }
+
+.dr__figure img {
+  display: block;
+  max-width: 100%;
+  max-height: min(70vh, 760px);
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.dr__figure figcaption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.dr__figure strong { font: 400 28px / 1.1 "Cormorant Garamond", serif; }
+
+.dr__figure span {
+  color: #d7c6dc;
+  font: 12px "DM Sans", sans-serif;
+  letter-spacing: 0.04em;
+}
+
+.dr__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 244, 248, 0.4);
+  border-radius: 50%;
+  background: rgba(12, 7, 18, 0.5);
+  color: #fff4f8;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.dr__close:hover { background: #f3bbd2; color: #21152b; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dr__open, .dr__figure { transition: none; }
+}
