@@ -6,7 +6,7 @@ export const portfolioCopy = {
     "I turn little thoughts and feelings into art, one sketch at a time.",
   imaginationNote: "A little corner of my imagination.",
   biography:
-    "I’m Sunny, and I make art inspired by small moments, gentle colors, and the feelings that are hard to put into words. This portfolio is a little home for what I’m making and what I’m still discovering.",
+    "I'm Sunny, an artist who finds creativity in words, lines, and colours. I love turning meaningful lyrics into visual art — one of my biggest creative passions. I also enjoy sketching anime-inspired characters in ink and creating colourful illustrations. Each style lets me express a different part of my imagination. This portfolio brings all those little worlds together — a collection of the things I love creating.",
   email: "hello@yourstudio.com",
 };
 export type Artwork = {
