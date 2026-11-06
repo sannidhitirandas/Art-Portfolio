@@ -248,3 +248,80 @@
 @media (prefers-reduced-motion: reduce) {
   .portfolio-page { scroll-behavior: auto; }
 }
+
+
+/* Responsive refinements for phones and narrow tablets */
+@media (max-width: 700px) {
+  .about-gallery-section {
+    min-height: 600px;
+    padding: 92px 22px 94px;
+  }
+  .about-gallery-section__content h2 {
+    font-size: clamp(46px, 12vw, 68px);
+  }
+  .about-gallery-section__bio {
+    margin-top: 24px;
+    font-size: clamp(17px, 4.8vw, 21px);
+    line-height: 1.45;
+  }
+  .about-gallery-section__signature { margin-top: 24px; }
+  .about-gallery-section__footnote {
+    bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    font-size: 9px;
+  }
+  .showcase-section--carousel,
+  .showcase-section--ribbon {
+    padding-top: 64px;
+  }
+  .showcase-section__heading {
+    padding-bottom: 26px;
+  }
+  .showcase-section__heading h2 {
+    font-size: clamp(42px, 10vw, 62px);
+  }
+  .showcase-section__description {
+    max-width: 90%;
+    font-size: 15px;
+  }
+  .showcase-section--carousel .gc {
+    min-height: 420px;
+  }
+  .depth-ribbon-frame {
+    height: min(150vw, 620px);
+    min-height: 480px;
+  }
+  .section-pad {
+    padding: 76px 24px;
+  }
+  .contact-section {
+    gap: 42px;
+    padding-right: max(24px, env(safe-area-inset-right, 0px));
+    padding-left: max(24px, env(safe-area-inset-left, 0px));
+  }
+  .contact-section h2 { font-size: clamp(48px, 12vw, 68px); }
+  .contact-link {
+    max-width: 100%;
+    gap: 12px;
+    font-size: clamp(10px, 3vw, 12px);
+    overflow-wrap: anywhere;
+  }
+  .contact-instagram img { width: min(68vw, 240px); }
+  .contact-instagram__link { flex-wrap: wrap; }
+  .site-footer {
+    padding: 26px 24px;
+    padding-bottom: max(26px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 380px) {
+  .lh-nav a { font-size: 0.6rem; }
+  .showcase-section__heading { padding-right: 20px; padding-left: 20px; }
+  .contact-section { padding-right: 20px; padding-left: 20px; }
+  .contact-link { letter-spacing: 0.02em; }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .spin-orbit__stage,
+  .gc__stage,
+  .dr__stage { cursor: default; }
+}
