@@ -67,7 +67,6 @@ export default function Home() {
           />
         </div>
         <div className="about-gallery-section__shade" aria-hidden="true" />
-        <div className="about-gallery-section__nav eyebrow">01 / A LITTLE ABOUT ME</div>
         <div className="about-gallery-section__content">
           <p className="eyebrow">A NOTE FROM SUNNY</p>
           <h2 id="about-title">
@@ -112,7 +111,6 @@ export default function Home() {
 
       <section className="contact-section section-pad" id="contact">
         <div className="contact-section__copy">
-          <p className="eyebrow">05 / CONTACT</p>
           <h2 id="contact-title">
             Have a little
             <br />
