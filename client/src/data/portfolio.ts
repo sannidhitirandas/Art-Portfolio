@@ -7,7 +7,7 @@ export const portfolioCopy = {
   imaginationNote: "A little corner of my imagination.",
   biography:
     "I'm Sunny, an artist who finds creativity in words, lines, and colours. I love turning meaningful lyrics into visual art — one of my biggest creative passions. I also enjoy sketching anime-inspired characters in ink and creating colourful illustrations. Each style lets me express a different part of my imagination. This portfolio brings all those little worlds together — a collection of the things I love creating.",
-  email: "hello@yourstudio.com",
+  email: "sannidhitirandas@gmail.com",
 };
 export type Artwork = {
   id: string;
