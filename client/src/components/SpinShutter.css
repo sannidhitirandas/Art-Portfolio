@@ -15,12 +15,19 @@
 }
 
 .spin-shutter__heading h2 {
-  margin: 20px 0 20px;
+  margin: 20px 0 12px;
   font: 400 clamp(45px, 7vw, 80px) / 1 "Cormorant Garamond", serif;
 }
 
 .spin-shutter__heading em {
   color: #f3bbd2;
+}
+
+.spin-shutter__heading .spin-shutter__description {
+  margin: 0 0 28px;
+  color: #c0afc5;
+  font: 16px/1.5 "Cormorant Garamond", serif;
+  letter-spacing: .02em;
 }
 
 .spin-shutter .spin-shutter__orbit {
