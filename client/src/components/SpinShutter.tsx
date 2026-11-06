@@ -226,7 +226,7 @@ const PAD = 0.3; // padding around blurred sprites, fraction of BLUR_H
 const MAX_BLURRED = 150;
 
 function makeBase(img: HTMLImageElement, aspect: number, rr: number) {
-  const H = SPR_H;
+  const H = window.matchMedia("(max-width: 700px)").matches ? 240 : SPR_H;
   const W = Math.round(H * aspect);
   const cv = document.createElement("canvas");
   cv.width = W;
