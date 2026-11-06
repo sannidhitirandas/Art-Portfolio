@@ -173,7 +173,7 @@ function roundRectPath(
 }
 
 function makeSprite(img: HTMLImageElement, aspect: number): HTMLCanvasElement {
-  const H = SPRITE_H;
+  const H = window.matchMedia("(max-width: 700px)").matches ? 256 : SPRITE_H;
   const W = Math.max(2, Math.round(H * aspect));
   const cv = document.createElement("canvas");
   cv.width = W;
@@ -718,7 +718,7 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           roundRectPath(ctx, 0, 0, Ws, Hs, rad);
           ctx.clip();
           if (sprite) {
-            ctx.drawImage(sprite, 0, 0);
+            ctx.drawImage(sprite, 0, 0, Ws, Hs);
           } else {
             const g = ctx.createLinearGradient(0, 0, Ws, Hs);
             g.addColorStop(0, "#5a3d66");
