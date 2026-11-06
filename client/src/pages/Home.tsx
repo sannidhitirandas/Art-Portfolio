@@ -117,13 +117,26 @@ export default function Home() {
           </h2>
           <p>For kind notes, creative thoughts, or simply to say hi.</p>
         </div>
-        <a className="contact-link" href={`mailto:${portfolioCopy.email}`}>
-          <span>{portfolioCopy.email}</span>
-          <span aria-hidden="true">↗</span>
-        </a>
-        <span className="contact-section__replace-note">
-          Replace this email with your own when you’re ready.
-        </span>
+        <div className="contact-section__links">
+          <a className="contact-link" href={`mailto:${portfolioCopy.email}`}>
+            <span>{portfolioCopy.email}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a
+            className="contact-instagram"
+            href="https://www.instagram.com/artistic._.sunny/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Visit Sunny on Instagram"
+          >
+            <img src="/instagram-pfp.jpg" alt="" />
+            <span className="contact-instagram__text">
+              <strong>Instagram</strong>
+              <span>@artistic._.sunny</span>
+            </span>
+            <span className="contact-instagram__arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </section>
 
       <footer className="site-footer">
