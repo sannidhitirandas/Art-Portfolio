@@ -110,6 +110,7 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
       img = new Image();
       img.crossOrigin = "anonymous";
       img.decoding = "async";
+      img.fetchPriority = "low";
       img.src = src;
       imageCache.set(src, img);
     }
@@ -289,7 +290,8 @@ export default function ReelGallery(props: ReelGalleryProps) {
       const r = root.getBoundingClientRect();
       w = r.width;
       h = r.height;
-      dprEff = Math.min(window.devicePixelRatio || 1, live.current.p.dpr);
+      const mobile = window.matchMedia("(max-width: 700px)").matches;
+      dprEff = Math.min(window.devicePixelRatio || 1, live.current.p.dpr, mobile ? 1 : 1.5);
       canvas.width = Math.max(1, Math.round(w * dprEff));
       canvas.height = Math.max(1, Math.round(h * dprEff));
       builtFor = ""; // rebuild sprites for the new pixel ratio
@@ -362,26 +364,29 @@ export default function ReelGallery(props: ReelGalleryProps) {
     );
     io.observe(root);
 
-    // Load every image, then lay the reels out (or after 2.5s regardless).
-    const startLoad = () => {
+    // Progressive, concurrency-limited loading lets the first reels appear before
+    // the full artwork set has downloaded, especially on mobile connections.
+    const startLoad = async () => {
       loaded = false;
       const list = live.current.plan.unique;
-      const timer = window.setTimeout(() => {
+      let next = 0;
+      const mobile = window.matchMedia("(max-width: 700px)").matches;
+      const workerCount = Math.min(list.length, mobile ? 2 : 4);
+      const worker = async () => {
+        while (alive && next < list.length) {
+          const src = list[next++];
+          const img = await loadImage(src);
+          if (!alive) return;
+          if (img) images.set(src, img);
+          loaded = true;
+          builtFor = "";
+        }
+      };
+      await Promise.all(Array.from({ length: workerCount }, () => worker()));
+      if (alive) {
         loaded = true;
         builtFor = "";
-      }, 2500);
-      Promise.all(
-        list.map((src) =>
-          loadImage(src).then((img) => {
-            if (img) images.set(src, img);
-          }),
-        ),
-      ).then(() => {
-        window.clearTimeout(timer);
-        if (!alive) return;
-        loaded = true;
-        builtFor = "";
-      });
+      }
     };
     startLoad();
 
