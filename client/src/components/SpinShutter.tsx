@@ -955,7 +955,7 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
               const next = mod(openArt + (dx < 0 ? 1 : -1), live.current.items.length);
               api.show(next);
               setOpenArt(next);
-              window.setTimeout(() => { suppressOverlayClick.current = false; }, 0);
+              window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
             }
           }}
           onPointerCancel={() => { overlaySwipeStart.current = null; }}
