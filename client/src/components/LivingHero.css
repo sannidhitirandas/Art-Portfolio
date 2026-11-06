@@ -153,3 +153,54 @@
 @media (prefers-reduced-motion: reduce) {
   .lh-fade { animation: none; }
 }
+
+
+/* Small-screen layout */
+@media (max-width: 639px) {
+  .lh-hero {
+    min-height: 560px;
+    padding-right: max(18px, env(safe-area-inset-right, 0px));
+    padding-left: max(18px, env(safe-area-inset-left, 0px));
+  }
+  .lh-nav {
+    gap: 10px;
+    padding-top: max(18px, env(safe-area-inset-top, 0px));
+  }
+  .lh-nav a {
+    font-size: clamp(0.62rem, 2.8vw, 0.78rem);
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+  }
+  .lh-title {
+    margin-top: clamp(24px, 7vh, 54px);
+    font-size: clamp(2.45rem, 10.8vw, 4.5rem);
+    letter-spacing: -0.045em;
+    text-align: center;
+  }
+  .lh-portrait {
+    top: 51%;
+    width: min(88vw, 390px, 56svh);
+  }
+  .lh-bottom {
+    align-items: flex-end;
+    padding-bottom: max(22px, env(safe-area-inset-bottom, 0px));
+  }
+  .lh-intro {
+    max-width: 145px;
+    font-size: clamp(0.7rem, 3vw, 0.88rem);
+  }
+}
+
+@media (max-width: 360px) {
+  .lh-nav { gap: 7px; }
+  .lh-nav a { font-size: 0.61rem; }
+  .lh-title { font-size: clamp(2.25rem, 10.2vw, 2.8rem); }
+  .lh-intro { max-width: 125px; }
+}
+
+@media (max-height: 560px) and (max-width: 900px) {
+  .lh-hero { min-height: 420px; }
+  .lh-portrait { width: min(48vw, 54svh); }
+  .lh-title { margin-top: 8px; }
+  .lh-bottom { padding-bottom: 16px; }
+}
