@@ -50,7 +50,7 @@ export default function LivingPortrait() {
     return best.n;
   };
 
-  const OVER = 1.7, N = 72, M = N + 1, SPAN = OVER / N, ORIGIN = .5 - OVER / 2;
+  const OVER = 1.7, N = smallScreen ? 48 : 72, M = N + 1, SPAN = OVER / N, ORIGIN = .5 - OVER / 2;
   const WOBBLE = 2.3 * 2 * Math.PI, REACH = .085 / SPAN, C = REACH * WOBBLE, GAMMA = 2 * .14 * WOBBLE, NU = .2 * C;
 
   const wrap = wrapRef.current, canvas = canvasRef.current, fallback = fallbackRef.current;
