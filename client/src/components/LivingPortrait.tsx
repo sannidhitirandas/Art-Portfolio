@@ -54,7 +54,8 @@ export default function LivingPortrait() {
   const WOBBLE = 2.3 * 2 * Math.PI, REACH = .085 / SPAN, C = REACH * WOBBLE, GAMMA = 2 * .14 * WOBBLE, NU = .2 * C;
 
   const wrap = wrapRef.current, canvas = canvasRef.current, fallback = fallbackRef.current;
-  const gl = canvas.getContext('webgl', {alpha: true, premultipliedAlpha: true, antialias: true});
+  const smallScreen = matchMedia('(max-width: 700px)').matches;
+  const gl = canvas.getContext('webgl', {alpha: true, premultipliedAlpha: true, antialias: !smallScreen, powerPreference: 'low-power'});
   if (!gl) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -188,11 +189,20 @@ export default function LivingPortrait() {
     onHead = solid(pu, pv);
     if (onHead && !reduced) poke(pu, pv, dx * .00035, dy * .00035, .07);
   });
+  // A tap has no pointermove on many touch browsers. Set the gaze on touch-down as well.
+  listen(wrap, 'pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+    const now = performance.now();
+    [pu, pv] = toUv(e.clientX, e.clientY);
+    lastX = e.clientX; lastY = e.clientY;
+    wake(now); if (act) endAct();
+    onHead = solid(pu, pv);
+  });
   // when the cursor leaves the page she goes back to looking at the visitor. The target must be her own
   // eye position: the old value sat below her eyes, so she looked down every time the cursor left.
   const lookForward = () => { pu = EYE[0]; pv = EYE[1]; };
   listen(document.documentElement, 'mouseleave', lookForward);
-  listen(document.documentElement, 'pointerleave', lookForward);
+  listen(document.documentElement, 'pointerleave', (e) => { if (e.pointerType !== 'touch') lookForward(); });
   listen(document, 'mouseleave', lookForward);
   listen(window, 'blur', lookForward);
   listen(window, 'scroll', () => { const n = performance.now(); if (Math.abs(scrollY - lastScroll) > 2) { scrollUntil = n + 500; lastScroll = scrollY; } wake(n); }, {passive: true});
@@ -200,7 +210,7 @@ export default function LivingPortrait() {
   if (contact) listen(contact, 'pointerenter', () => poke(.5, .6, 0, -.6, .1));
 
   const io = new IntersectionObserver(es => { visible = es[0].isIntersecting; }, {threshold: 0}); io.observe(canvas);
-  const ro = new ResizeObserver(() => { const r = Math.min(devicePixelRatio || 1, 2), b = canvas.getBoundingClientRect(); canvas.width = Math.max(1, b.width * r); canvas.height = Math.max(1, b.height * r); gl.viewport(0, 0, canvas.width, canvas.height); }); ro.observe(canvas);
+  const ro = new ResizeObserver(() => { const r = Math.min(devicePixelRatio || 1, smallScreen ? 1.25 : 1.75), b = canvas.getBoundingClientRect(); canvas.width = Math.max(1, b.width * r); canvas.height = Math.max(1, b.height * r); gl.viewport(0, 0, canvas.width, canvas.height); }); ro.observe(canvas);
 
   // ---- frame ----
   function frame(now) {
