@@ -914,7 +914,7 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
           <canvas ref={canvasRef} className="spin-orbit__canvas" aria-hidden="true" />
         </div>
 
-        <div className="spin-orbit__caption" aria-live="polite">
+        <div className={`spin-orbit__caption${openArt >= 0 ? " is-hidden" : ""}`} aria-live="polite">
           {showCaption && (
             <>
               {item.title && <h3>{item.title}</h3>}
