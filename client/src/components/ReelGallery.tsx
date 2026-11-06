@@ -110,7 +110,6 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
       img = new Image();
       img.crossOrigin = "anonymous";
       img.decoding = "async";
-      img.fetchPriority = "low";
       img.src = src;
       imageCache.set(src, img);
     }
@@ -372,6 +371,13 @@ export default function ReelGallery(props: ReelGalleryProps) {
       let next = 0;
       const mobile = window.matchMedia("(max-width: 700px)").matches;
       const workerCount = Math.min(list.length, mobile ? 2 : 4);
+      // Keep the canvas from remaining blank if a large first image is slow.
+      const fallbackTimer = window.setTimeout(() => {
+        if (alive) {
+          loaded = true;
+          builtFor = "";
+        }
+      }, 2200);
       const worker = async () => {
         while (alive && next < list.length) {
           const src = list[next++];
@@ -383,6 +389,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
         }
       };
       await Promise.all(Array.from({ length: workerCount }, () => worker()));
+      window.clearTimeout(fallbackTimer);
       if (alive) {
         loaded = true;
         builtFor = "";
