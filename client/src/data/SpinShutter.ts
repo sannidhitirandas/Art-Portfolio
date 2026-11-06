@@ -7,7 +7,7 @@ export const spinShutterArtworks: SpinArtwork[] = Array.from(
     return {
       id,
       title: "",
-      note: "A little piece of my imagination",
+      note: "A little bit of everything I am.",
       image: `/spinshutter artworks/artwork-${id}.jpg`,
       alt: "Artwork from Sunny's collection",
     };
