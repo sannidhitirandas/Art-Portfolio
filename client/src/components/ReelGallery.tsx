@@ -282,7 +282,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
     let w = 0;
     let h = 0;
     let dprEff = 1;
-    let inView = true;
+    let inView = false;
     let alive = true;
 
     const resize = () => {
@@ -361,6 +361,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
     const io = new IntersectionObserver(
       ([e]) => {
         inView = e.isIntersecting;
+        if (inView) startLoad();
       },
       { threshold: 0.01 },
     );
@@ -368,7 +369,10 @@ export default function ReelGallery(props: ReelGalleryProps) {
 
     // Progressive, concurrency-limited loading lets the first reels appear before
     // the full artwork set has downloaded, especially on mobile connections.
+    let loadStarted = false;
     const startLoad = async () => {
+      if (loadStarted || !alive) return;
+      loadStarted = true;
       loaded = false;
       const list = live.current.plan.unique;
       let next = 0;
@@ -401,8 +405,6 @@ export default function ReelGallery(props: ReelGalleryProps) {
         builtFor = "";
       }
     };
-    startLoad();
-
     /* ---- draw loop ---- */
     let last = performance.now();
     let lastDraw = 0;
