@@ -1,6 +1,4 @@
 import type { CSSProperties } from "react";
-import { useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
 import LivingPortrait from "../components/LivingPortrait";
 import ReelGallery from "../components/ReelGallery";
 import SpinShutter from "../components/SpinShutter";
@@ -19,48 +17,7 @@ const navigation = [
   { label: "CONTACT", href: "#contact" },
 ];
 
-function StickySection({ children, id, className, index }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  // Option 3: Zoom-Through / Scale effect
-  // As the section reaches the center, it's full size.
-  // As it leaves, it shrinks slightly (0.95) to create depth.
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [1.1, 1, 0.95]);
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
-
-  return (
-    <div ref={ref} className="sticky-section" style={{ zIndex: index }}>
-      <motion.div
-        style={{ scale, opacity }}
-        className={`w-full h-full flex flex-col justify-center ${className}`}
-      >
-        {children}
-      </motion.div>
-    </div>
-  );
-}
-
 export default function Home() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <main id="top" className="portfolio-page">
       <section className="lh-hero" id="sunny" aria-labelledby="hero-title">
@@ -104,87 +61,65 @@ export default function Home() {
         <LivingPortrait />
       </section>
 
-      <StickySection
-        index={1}
-        id="my-art"
-        className="art-section section-pad reveal"
-      >
-        <div className="reveal-child section-heading">
-          <div className="reveal-child">
-            <p className="eyebrow section-heading__eyebrow">01 / MY ART</p>
-            <h2 id="art-title">
-              A little of what
-              <br />
-              <em>I make.</em>
-            </h2>
-          </div>
-          <p className="reveal-child section-heading__aside">
-            A growing collection of small thoughts, soft colors, and things
-            still taking shape.
-          </p>
+      {/* The reels and About copy are deliberately one shared section. */}
+      <section className="about-gallery-section" id="my-art" aria-labelledby="about-title">
+        <div className="about-gallery-section__reels" aria-hidden="true">
+          <ReelGallery
+            rows={reelRows}
+            interactive={false}
+            autoScroll={20}
+            grayscale={0.2}
+            dim={0.48}
+            style={{ height: "100%" }}
+          />
         </div>
-
-        <div className="reveal-child art-gallery-stack">
-          <div className="art-gallery-group">
-            <ReelGallery rows={reelRows} />
-            <p className="gallery-note">
-              {hasRealArtwork(artwork)
-                ? "Every piece in these reels is Sunny’s own work."
-                : "Your artwork reels will fill as you add images to your portfolio."}
-            </p>
-          </div>
-
-          <div className="art-gallery-group">
-            <SpinShutter />
-          </div>
-
-          <div className="art-gallery-group">
-            <GradientCarousel images={gradientArtworks} />
-          </div>
-
-          <div className="art-gallery-group">
-            <DepthRibbon items={depthRibbonItems} />
-          </div>
-        </div>
-      </StickySection>
-
-      <StickySection
-        index={2}
-        id="about"
-        className="about-section section-pad reveal"
-        style={{ pointerEvents: "none" }}
-      >
-        <div className="reveal-child about-section__index eyebrow">
-          02 / ABOUT
-        </div>
-        <div className="reveal-child about-section__content">
-          <p className="eyebrow about-section__overline">A NOTE FROM SUNNY</p>
+        <div className="about-gallery-section__shade" aria-hidden="true" />
+        <div className="about-gallery-section__nav eyebrow">01 / A LITTLE ABOUT ME</div>
+        <div className="about-gallery-section__content" id="about">
+          <p className="eyebrow">A NOTE FROM SUNNY</p>
           <h2 id="about-title">
             Made from the
             <br />
             <em>little things.</em>
           </h2>
-          <p className="about-section__bio">{portfolioCopy.biography}</p>
-          <div className="about-section__signature">
-            <span
-              className="about-section__signature-rule"
-              aria-hidden="true"
-            />
-            <span>Sunny</span>
+          <p className="about-gallery-section__bio">{portfolioCopy.biography}</p>
+          <div className="about-gallery-section__signature">
+            <span aria-hidden="true" />
+            Sunny
           </div>
         </div>
-        <p className="reveal-child about-section__footnote">
-          A little home for the art, ideas, and moments still taking shape.
+        <p className="about-gallery-section__footnote">
+          {hasRealArtwork(artwork)
+            ? "A little home for the art, ideas, and moments still taking shape."
+            : "Your artwork will fill these reels as you add images to your portfolio."}
         </p>
-      </StickySection>
+      </section>
 
-      <StickySection
-        index={3}
-        id="contact"
-        className="contact-section section-pad reveal"
-      >
-        <div className="reveal-child contact-section__copy">
-          <p className="eyebrow">03 / CONTACT</p>
+      <section className="showcase-section showcase-section--spin" aria-label="Spin shutter artwork gallery">
+        <SpinShutter />
+      </section>
+
+      <section className="showcase-section showcase-section--carousel" aria-labelledby="carousel-title">
+        <div className="showcase-section__heading">
+          <p className="eyebrow">03 / IN COLOUR</p>
+          <h2 id="carousel-title">A different <em>perspective.</em></h2>
+        </div>
+        <GradientCarousel images={gradientArtworks} />
+      </section>
+
+      <section className="showcase-section showcase-section--ribbon" aria-labelledby="ribbon-title">
+        <div className="showcase-section__heading">
+          <p className="eyebrow">04 / THE LITTLE DETAILS</p>
+          <h2 id="ribbon-title">Take a closer <em>look.</em></h2>
+        </div>
+        <div className="depth-ribbon-frame">
+          <DepthRibbon items={depthRibbonItems} />
+        </div>
+      </section>
+
+      <section className="contact-section section-pad" id="contact">
+        <div className="contact-section__copy">
+          <p className="eyebrow">05 / CONTACT</p>
           <h2 id="contact-title">
             Have a little
             <br />
@@ -192,19 +127,16 @@ export default function Home() {
           </h2>
           <p>For kind notes, creative thoughts, or simply to say hi.</p>
         </div>
-        <a
-          className="reveal-child contact-link"
-          href={`mailto:${portfolioCopy.email}`}
-        >
+        <a className="contact-link" href={`mailto:${portfolioCopy.email}`}>
           <span>{portfolioCopy.email}</span>
           <span aria-hidden="true">↗</span>
         </a>
-        <span className="reveal-child contact-section__replace-note">
+        <span className="contact-section__replace-note">
           Replace this email with your own when you’re ready.
         </span>
-      </StickySection>
+      </section>
 
-      <footer className="site-footer reveal">
+      <footer className="site-footer">
         <a className="brand-lockup brand-lockup--footer" href="#sunny">
           <span>SUNNY</span>
         </a>
