@@ -173,7 +173,7 @@ function roundRectPath(
 }
 
 function makeSprite(img: HTMLImageElement, aspect: number): HTMLCanvasElement {
-  const H = SPRITE_H;
+  const H = window.matchMedia("(max-width: 700px)").matches ? 256 : SPRITE_H;
   const W = Math.max(2, Math.round(H * aspect));
   const cv = document.createElement("canvas");
   cv.width = W;
@@ -269,6 +269,8 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
 
     const [openItem, setOpenItem] = useState(-1); // item shown in the overlay
     const [overlayShown, setOverlayShown] = useState(false);
+    const overlaySwipeStart = useRef<{ x: number; y: number } | null>(null);
+    const suppressOverlayClick = useRef(false);
 
     const live = useRef({ p, items, layout, cards });
     live.current = { p, items, layout, cards };
@@ -716,7 +718,7 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           roundRectPath(ctx, 0, 0, Ws, Hs, rad);
           ctx.clip();
           if (sprite) {
-            ctx.drawImage(sprite, 0, 0);
+            ctx.drawImage(sprite, 0, 0, Ws, Hs);
           } else {
             const g = ctx.createLinearGradient(0, 0, Ws, Hs);
             g.addColorStop(0, "#5a3d66");
@@ -927,7 +929,31 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           aria-modal="false"
           aria-label={open?.title ?? open?.alt ?? "Artwork"}
           aria-hidden={!(overlayShown && open)}
-          onClick={() => actions.release()}
+          onPointerDown={(e) => {
+            if (e.pointerType === "touch") overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
+          }}
+          onPointerUp={(e) => {
+            const start = overlaySwipeStart.current;
+            overlaySwipeStart.current = null;
+            const s = sim.current;
+            if (!start || !(overlayShown && open) || s.focusCard < 0) return;
+            const dx = e.clientX - start.x;
+            const dy = e.clientY - start.y;
+            if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+              e.preventDefault();
+              suppressOverlayClick.current = true;
+              actions.doFocus(s.focusCard + (dx < 0 ? 1 : -1));
+              window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
+            }
+          }}
+          onPointerCancel={() => { overlaySwipeStart.current = null; }}
+          onClick={() => {
+            if (suppressOverlayClick.current) {
+              suppressOverlayClick.current = false;
+              return;
+            }
+            actions.release();
+          }}
         >
           {open && (
             <figure className="dr__figure">

@@ -93,3 +93,47 @@
 }
 
 @media (max-width: 600px) { .gc { height: 460px; } }
+
+
+/* Full-size artwork viewer with native horizontal swipe navigation. */
+.gc__open {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: rgba(12, 7, 18, 0.96);
+  opacity: 0;
+  pointer-events: none;
+  touch-action: pan-y;
+  transition: opacity 0.3s ease;
+}
+.gc__open.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+.gc__open > img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+.gc__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 244, 248, 0.4);
+  border-radius: 50%;
+  background: rgba(12, 7, 18, 0.65);
+  color: #fff4f8;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}

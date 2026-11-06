@@ -226,7 +226,7 @@ const PAD = 0.3; // padding around blurred sprites, fraction of BLUR_H
 const MAX_BLURRED = 150;
 
 function makeBase(img: HTMLImageElement, aspect: number, rr: number) {
-  const H = SPR_H;
+  const H = window.matchMedia("(max-width: 700px)").matches ? 240 : SPR_H;
   const W = Math.round(H * aspect);
   const cv = document.createElement("canvas");
   cv.width = W;
@@ -306,6 +306,8 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
 
     const [focusArt, setFocusArt] = useState(0);
     const [openArt, setOpenArt] = useState(-1); // artwork shown full size
+    const overlaySwipeStart = useRef<{ x: number; y: number } | null>(null);
+    const suppressOverlayClick = useRef(false);
 
     // Latest values for the animation loop & event handlers.
     const live = useRef({ p, items, layout });
@@ -936,7 +938,34 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
           aria-modal="false"
           aria-label={openItem?.title ?? openItem?.alt ?? "Artwork"}
           aria-hidden={openArt < 0}
-          onClick={closeOpen}
+          onPointerDown={(e) => {
+            if (e.pointerType === "touch") {
+              overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
+            }
+          }}
+          onPointerUp={(e) => {
+            const start = overlaySwipeStart.current;
+            overlaySwipeStart.current = null;
+            if (!start || openArt < 0) return;
+            const dx = e.clientX - start.x;
+            const dy = e.clientY - start.y;
+            if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+              e.preventDefault();
+              suppressOverlayClick.current = true;
+              const next = mod(openArt + (dx < 0 ? 1 : -1), live.current.items.length);
+              api.show(next);
+              setOpenArt(next);
+              window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
+            }
+          }}
+          onPointerCancel={() => { overlaySwipeStart.current = null; }}
+          onClick={() => {
+            if (suppressOverlayClick.current) {
+              suppressOverlayClick.current = false;
+              return;
+            }
+            closeOpen();
+          }}
         >
           {openItem && (
             <figure className="spin-orbit__figure">

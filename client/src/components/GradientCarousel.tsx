@@ -230,6 +230,9 @@ export default function GradientCarousel(props: GradientCarouselProps) {
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [palVersion, setPalVersion] = useState(0);
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
+  const [openArt, setOpenArt] = useState(-1);
+  const overlaySwipeStart = useRef<{ x: number; y: number } | null>(null);
+  const suppressOverlayClick = useRef(false);
 
   const live = useRef({ p, count, images });
   live.current = { p, count, images };
@@ -516,9 +519,13 @@ export default function GradientCarousel(props: GradientCarouselProps) {
       stageRef.current.releasePointerCapture(e.pointerId);
     }
     if (s.moved < 5) {
-      // a click: bring a side card to the centre
-      const card = (e.target as HTMLElement).closest<HTMLElement>("[data-index]");
-      if (card) goTo(Number(card.dataset.index));
+      // Pointer capture retargets pointerup to the stage; hit-test beneath the finger.
+      const card = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>("[data-index]");
+      if (card) {
+        const index = Number(card.dataset.index);
+        goTo(index);
+        setOpenArt(index);
+      }
       return;
     }
     s.lastInteract = performance.now();
@@ -528,6 +535,23 @@ export default function GradientCarousel(props: GradientCarouselProps) {
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (!p.enableKeyboard) return;
+    if (openArt >= 0) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setOpenArt(-1);
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        const next = mod(openArt + 1, count);
+        setOpenArt(next);
+        goTo(next);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        const previous = mod(openArt - 1, count);
+        setOpenArt(previous);
+        goTo(previous);
+      }
+      return;
+    }
     if (e.key === "ArrowRight") {
       e.preventDefault();
       stepBy(1);
@@ -658,6 +682,54 @@ export default function GradientCarousel(props: GradientCarouselProps) {
         })}
       </div>
 
+      <div
+        className={`gc__open${openArt >= 0 ? " is-on" : ""}`}
+        role="dialog"
+        aria-modal="false"
+        aria-label="Artwork"
+        aria-hidden={openArt < 0}
+        onPointerDown={(e) => {
+          if (e.pointerType === "touch") overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
+        }}
+        onPointerUp={(e) => {
+          const start = overlaySwipeStart.current;
+          overlaySwipeStart.current = null;
+          if (!start || openArt < 0) return;
+          const dx = e.clientX - start.x;
+          const dy = e.clientY - start.y;
+          if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+            e.preventDefault();
+            suppressOverlayClick.current = true;
+            const next = mod(openArt + (dx < 0 ? 1 : -1), count);
+            setOpenArt(next);
+            goTo(next);
+            window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
+          }
+        }}
+        onPointerCancel={() => { overlaySwipeStart.current = null; }}
+        onClick={() => {
+          if (suppressOverlayClick.current) {
+            suppressOverlayClick.current = false;
+            return;
+          }
+          setOpenArt(-1);
+        }}
+      >
+        {openArt >= 0 && images[openArt] && (
+          <img src={images[openArt]} alt="Artwork" draggable={false} />
+        )}
+        <button
+          type="button"
+          className="gc__close"
+          aria-label="Close artwork"
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpenArt(-1);
+          }}
+        >
+          ×
+        </button>
+      </div>
     </div>
   );
 }
