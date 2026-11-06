@@ -389,23 +389,49 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
     /* ---- load images into small sprites, nearest-first ---- */
     useEffect(() => {
       let alive = true;
+      let started = false;
+      const root = rootRef.current;
       const { aspect } = live.current.p;
       sprites.current.clear();
       const order: number[] = [];
       for (const it of layout.seq) if (it >= 0 && !order.includes(it)) order.push(it);
-      let next = 0;
-      const worker = async () => {
-        while (alive && next < order.length) {
-          const idx = order[next++];
-          const src = items[idx]?.src;
-          if (!src) continue;
-          const img = await loadImage(src);
-          if (!alive || !img) continue;
-          sprites.current.set(idx, makeSprite(img, aspect));
-        }
+
+      const startLoading = () => {
+        if (started || !alive) return;
+        started = true;
+        let next = 0;
+        const worker = async () => {
+          while (alive && next < order.length) {
+            const idx = order[next++];
+            const src = items[idx]?.src;
+            if (!src) continue;
+            const img = await loadImage(src);
+            if (!alive || !img) continue;
+            sprites.current.set(idx, makeSprite(img, aspect));
+            // The small canvas sprite is enough for rendering; release the full-size decode.
+            imageCache.delete(src);
+          }
+        };
+        const workerCount = window.matchMedia("(max-width: 700px)").matches ? 2 : 4;
+        for (let i = 0; i < workerCount; i++) worker();
       };
-      const workerCount = window.matchMedia("(max-width: 700px)").matches ? 2 : 4;
-      for (let i = 0; i < workerCount; i++) worker();
+
+      // Don't download the ribbon's large artwork set until the section is approaching.
+      if (root && "IntersectionObserver" in window) {
+        const io = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            startLoading();
+            io.disconnect();
+          }
+        }, { rootMargin: "600px 0px", threshold: 0 });
+        io.observe(root);
+        return () => {
+          alive = false;
+          io.disconnect();
+        };
+      }
+
+      startLoading();
       return () => {
         alive = false;
       };
