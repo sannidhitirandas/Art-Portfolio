@@ -137,6 +137,7 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
       img = new Image();
       img.crossOrigin = "anonymous";
       img.decoding = "async";
+      img.fetchPriority = "low";
       img.src = src;
       imageCache.set(src, img);
     }
@@ -403,7 +404,8 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           sprites.current.set(idx, makeSprite(img, aspect));
         }
       };
-      for (let i = 0; i < 4; i++) worker();
+      const workerCount = window.matchMedia("(max-width: 700px)").matches ? 2 : 4;
+      for (let i = 0; i < workerCount; i++) worker();
       return () => {
         alive = false;
       };
@@ -427,7 +429,8 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
         const r = stage.getBoundingClientRect();
         w = r.width;
         h = r.height;
-        dprEff = Math.min(window.devicePixelRatio || 1, live.current.p.dpr);
+        const mobile = window.matchMedia("(max-width: 700px)").matches;
+        dprEff = Math.min(window.devicePixelRatio || 1, live.current.p.dpr, mobile ? 1.1 : 1.5);
         canvas.width = Math.max(1, Math.round(w * dprEff));
         canvas.height = Math.max(1, Math.round(h * dprEff));
       };
