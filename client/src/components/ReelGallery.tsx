@@ -362,27 +362,26 @@ export default function ReelGallery(props: ReelGalleryProps) {
     );
     io.observe(root);
 
-    // Start drawing immediately with lightweight placeholders, then reveal
-    // real artwork progressively instead of waiting for the entire collection.
+    // Load every image, then lay the reels out (or after 2.5s regardless).
     const startLoad = () => {
-      loaded = true;
+      loaded = false;
       const list = live.current.plan.unique;
-      const loadInBatches = async () => {
-        const batchSize = 8;
-        for (let i = 0; i < list.length; i += batchSize) {
-          const batch = list.slice(i, i + batchSize);
-          const results = await Promise.all(
-            batch.map((src) => loadImage(src).then((img) => ({ src, img }))),
-          );
-          if (!alive) return;
-          for (const { src, img } of results) {
+      const timer = window.setTimeout(() => {
+        loaded = true;
+        builtFor = "";
+      }, 2500);
+      Promise.all(
+        list.map((src) =>
+          loadImage(src).then((img) => {
             if (img) images.set(src, img);
-          }
-          // Rebuild once per batch so each group of finished images appears together.
-          builtFor = "";
-        }
-      };
-      void loadInBatches();
+          }),
+        ),
+      ).then(() => {
+        window.clearTimeout(timer);
+        if (!alive) return;
+        loaded = true;
+        builtFor = "";
+      });
     };
     startLoad();
 
@@ -434,7 +433,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
       spotX += (inp.px - spotX) * Math.min(1, dt * 14);
       spotY += (inp.py - spotY) * Math.min(1, dt * 14);
       spotA += ((inp.inside ? 1 : 0) - spotA) * Math.min(1, dt * 6);
-      fadeIn = Math.min(1, fadeIn + dt / 0.35);
+      fadeIn = Math.min(1, fadeIn + dt / 0.9);
 
       /* ---- render ---- */
       ctx.setTransform(dprEff, 0, 0, dprEff, 0, 0);
