@@ -269,6 +269,8 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
 
     const [openItem, setOpenItem] = useState(-1); // item shown in the overlay
     const [overlayShown, setOverlayShown] = useState(false);
+    const overlaySwipeStart = useRef<{ x: number; y: number } | null>(null);
+    const suppressOverlayClick = useRef(false);
 
     const live = useRef({ p, items, layout, cards });
     live.current = { p, items, layout, cards };
@@ -927,7 +929,31 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           aria-modal="false"
           aria-label={open?.title ?? open?.alt ?? "Artwork"}
           aria-hidden={!(overlayShown && open)}
-          onClick={() => actions.release()}
+          onPointerDown={(e) => {
+            if (e.pointerType === "touch") overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
+          }}
+          onPointerUp={(e) => {
+            const start = overlaySwipeStart.current;
+            overlaySwipeStart.current = null;
+            const s = sim.current;
+            if (!start || !(overlayShown && open) || s.focusCard < 0) return;
+            const dx = e.clientX - start.x;
+            const dy = e.clientY - start.y;
+            if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+              e.preventDefault();
+              suppressOverlayClick.current = true;
+              actions.doFocus(s.focusCard + (dx < 0 ? 1 : -1));
+              window.setTimeout(() => { suppressOverlayClick.current = false; }, 0);
+            }
+          }}
+          onPointerCancel={() => { overlaySwipeStart.current = null; }}
+          onClick={() => {
+            if (suppressOverlayClick.current) {
+              suppressOverlayClick.current = false;
+              return;
+            }
+            actions.release();
+          }}
         >
           {open && (
             <figure className="dr__figure">
