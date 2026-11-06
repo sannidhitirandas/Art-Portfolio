@@ -969,9 +969,8 @@ export const SpinShutterSection = forwardRef<SpinShutterHandle, SpinShutterProps
     return (
       <section className="spin-shutter" aria-label="Spin Shutter art collection">
         <div className="spin-shutter__heading">
-          <p>THE ART COLLECTION</p>
           <h2>
-            Behind the <em>shutter.</em>
+            Frames in <em>Black.</em>
           </h2>
           <p className="spin-shutter__description">Black &amp; white ink illustrations and sketches.</p>
         </div>
