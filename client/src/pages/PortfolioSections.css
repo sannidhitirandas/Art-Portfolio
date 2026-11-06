@@ -12,7 +12,8 @@
   isolation: isolate;
   display: grid;
   place-items: center;
-  min-height: 100svh;
+  height: 100svh;
+  min-height: 680px;
   padding: clamp(100px, 12vw, 160px) clamp(26px, 9vw, 140px);
   overflow: hidden;
   background: #171020;
@@ -195,7 +196,8 @@
 
 @media (max-width: 700px) {
   .about-gallery-section {
-    min-height: 88svh;
+    height: 88svh;
+    min-height: 620px;
     padding: 110px 26px 100px;
   }
   .about-gallery-section__nav { left: 26px; }
