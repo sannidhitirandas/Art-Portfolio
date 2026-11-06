@@ -358,15 +358,6 @@ export default function ReelGallery(props: ReelGalleryProps) {
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(root);
-    const io = new IntersectionObserver(
-      ([e]) => {
-        inView = e.isIntersecting;
-        if (inView) startLoad();
-      },
-      { threshold: 0.01 },
-    );
-    io.observe(root);
-
     // Progressive, concurrency-limited loading lets the first reels appear before
     // the full artwork set has downloaded, especially on mobile connections.
     let loadStarted = false;
@@ -405,6 +396,16 @@ export default function ReelGallery(props: ReelGalleryProps) {
         builtFor = "";
       }
     };
+
+    const io = new IntersectionObserver(
+      ([e]) => {
+        inView = e.isIntersecting;
+        if (inView) startLoad();
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(root);
+
     /* ---- draw loop ---- */
     let last = performance.now();
     let lastDraw = 0;
