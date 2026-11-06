@@ -935,12 +935,7 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
           {openItem && (
             <figure className="spin-orbit__figure">
               <img src={openItem.src} alt={openItem.alt} draggable={false} />
-              {p.captions && (openItem.title || openItem.subtitle) && (
-                <figcaption>
-                  {openItem.title && <strong>{openItem.title}</strong>}
-                  {openItem.subtitle && <span>{openItem.subtitle}</span>}
-                </figcaption>
-              )}
+
             </figure>
           )}
           <button
