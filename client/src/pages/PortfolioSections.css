@@ -118,6 +118,12 @@
 .showcase-section__heading h2 {
   font-size: clamp(44px, 6vw, 76px);
 }
+.showcase-section__description {
+  margin: 18px 0 0;
+  color: #c0afc5;
+  font: 16px/1.5 "Cormorant Garamond", serif;
+  letter-spacing: .02em;
+}
 .showcase-section--carousel .gc {
   min-height: 480px;
 }
