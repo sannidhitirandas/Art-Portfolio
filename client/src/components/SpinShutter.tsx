@@ -636,12 +636,16 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
 
           ctx.globalAlpha = alpha;
           const item = list[d.art];
-          const img = item ? getImage(item.src) : null;
-          let base = img ? sprites.base.get(d.art) : undefined;
-          if (img && !base && built < 3) {
-            base = makeBase(img, c.aspect, rrRatio);
-            sprites.base.set(d.art, base);
-            built++;
+          let base = sprites.base.get(d.art);
+          if (!base && item && built < 3) {
+            const img = getImage(item.src);
+            if (img) {
+              base = makeBase(img, c.aspect, rrRatio);
+              sprites.base.set(d.art, base);
+              // Keep the compact card sprite, not the full-resolution source decode.
+              imageCache.delete(item.src);
+              built++;
+            }
           }
 
           if (base) {
