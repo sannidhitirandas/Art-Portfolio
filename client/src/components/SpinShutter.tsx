@@ -973,6 +973,7 @@ export const SpinShutterSection = forwardRef<SpinShutterHandle, SpinShutterProps
           <h2>
             Behind the <em>shutter.</em>
           </h2>
+          <p className="spin-shutter__description">Black &amp; white ink illustrations and sketches.</p>
         </div>
         <SpinShutter
           ref={ref}
