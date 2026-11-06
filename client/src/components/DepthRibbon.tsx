@@ -943,7 +943,7 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
               e.preventDefault();
               suppressOverlayClick.current = true;
               actions.doFocus(s.focusCard + (dx < 0 ? 1 : -1));
-              window.setTimeout(() => { suppressOverlayClick.current = false; }, 0);
+              window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
             }
           }}
           onPointerCancel={() => { overlaySwipeStart.current = null; }}
