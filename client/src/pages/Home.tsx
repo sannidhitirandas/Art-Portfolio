@@ -94,8 +94,7 @@ export default function Home() {
 
       <section className="showcase-section showcase-section--carousel" aria-labelledby="carousel-title">
         <div className="showcase-section__heading">
-          <p className="eyebrow">03 / IN COLOUR</p>
-          <h2 id="carousel-title">A different <em>perspective.</em></h2>
+          <h2 id="carousel-title">A World in <em>Colour.</em></h2>
           <p className="showcase-section__description">A collection of my colourful artworks.</p>
         </div>
         <GradientCarousel images={gradientArtworks} />
@@ -103,8 +102,7 @@ export default function Home() {
 
       <section className="showcase-section showcase-section--ribbon" aria-labelledby="ribbon-title">
         <div className="showcase-section__heading">
-          <p className="eyebrow">04 / THE LITTLE DETAILS</p>
-          <h2 id="ribbon-title">Take a closer <em>look.</em></h2>
+          <h2 id="ribbon-title">Words Into <em>Art.</em></h2>
           <p className="showcase-section__description">Lyrics art inspired by words and music.</p>
         </div>
         <div className="depth-ribbon-frame">
