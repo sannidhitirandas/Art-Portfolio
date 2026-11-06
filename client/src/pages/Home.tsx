@@ -106,7 +106,7 @@ export default function Home() {
           <h2 id="ribbon-title">Take a closer <em>look.</em></h2>
         </div>
         <div className="depth-ribbon-frame">
-          <DepthRibbon items={depthRibbonItems} />
+          <DepthRibbon items={depthRibbonItems} aspect={3 / 4} />
         </div>
       </section>
 
