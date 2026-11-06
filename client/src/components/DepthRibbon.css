@@ -61,7 +61,7 @@
 .dr__open.is-on {
   opacity: 1;
   pointer-events: auto;
-  background: rgba(12, 7, 18, 0.45);
+  background: rgba(12, 7, 18, 0.96);
   backdrop-filter: blur(3px);
 }
 
@@ -124,4 +124,19 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dr__open, .dr__figure { transition: none; }
+}
+
+
+/* Expanded artwork stays completely free of titles and captions. */
+.dr__figure figcaption { display: none !important; }
+
+@media (max-width: 700px) {
+  .dr__open { padding: 12px; }
+  .dr__figure { width: 100%; }
+  .dr__figure img {
+    max-width: 100%;
+    max-height: 78svh;
+    border-radius: 10px;
+  }
+  .dr__close { top: 10px; right: 10px; }
 }
