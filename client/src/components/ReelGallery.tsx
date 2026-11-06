@@ -293,7 +293,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
       dprEff = Math.min(window.devicePixelRatio || 1, live.current.p.dpr, mobile ? 1 : 1.5);
       canvas.width = Math.max(1, Math.round(w * dprEff));
       canvas.height = Math.max(1, Math.round(h * dprEff));
-      builtFor = ""; // rebuild sprites for the new pixel ratio
+      // Existing sprites are scaled to the new canvas size; don't force full-image reloads.
     };
 
     /* sprites + reel layout */
@@ -302,6 +302,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
     let loaded = false;
     let fadeIn = 0;
     const images = new Map<string, HTMLImageElement>();
+    const imageAspects = new Map<string, number>();
     const sprites = new Map<string, Sprite>();
 
     const spriteH = () =>
@@ -313,7 +314,6 @@ export default function ReelGallery(props: ReelGalleryProps) {
       const key = `${pl.key}|${c.rowHeight}|${c.itemGap}|${c.minAspect}|${c.maxAspect}|${H}`;
       if (key === builtFor) return;
       builtFor = key;
-      sprites.clear();
 
       const prev = reels;
       reels = pl.seqs.map((seq, r) => {
@@ -323,14 +323,17 @@ export default function ReelGallery(props: ReelGalleryProps) {
           let sprite: Sprite | null = null;
           let aspect = PLACEHOLDER_ASPECTS[(i + r * 3) % PLACEHOLDER_ASPECTS.length];
           const img = src ? images.get(src) : undefined;
-          if (src && img) {
-            const nat = img.naturalWidth / img.naturalHeight;
+          const nat = src ? imageAspects.get(src) : undefined;
+          if (src && nat) {
             aspect = clamp(nat, c.minAspect, c.maxAspect);
             const sk = `${src}|${aspect.toFixed(3)}`;
             sprite = sprites.get(sk) ?? null;
-            if (!sprite) {
+            if (!sprite && img) {
               sprite = makeSprite(img, aspect, H);
               sprites.set(sk, sprite);
+              // Keep the small canvas sprite, not the full-resolution decoded image.
+              images.delete(src);
+              imageCache.delete(src);
             }
           } else {
             aspect = clamp(aspect, c.minAspect, c.maxAspect);
@@ -383,7 +386,10 @@ export default function ReelGallery(props: ReelGalleryProps) {
           const src = list[next++];
           const img = await loadImage(src);
           if (!alive) return;
-          if (img) images.set(src, img);
+          if (img) {
+            images.set(src, img);
+            imageAspects.set(src, img.naturalWidth / img.naturalHeight);
+          }
           loaded = true;
           builtFor = "";
         }
