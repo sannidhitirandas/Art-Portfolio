@@ -120,6 +120,7 @@
 /* ---- the opened artwork ---- */
 
 .spin-orbit__open {
+  touch-action: pan-y;
   position: absolute;
   inset: 0;
   z-index: 5;
