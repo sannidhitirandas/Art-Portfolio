@@ -69,9 +69,9 @@ export default function Home() {
         <div className="about-gallery-section__content">
           <p className="eyebrow">A NOTE FROM SUNNY</p>
           <h2 id="about-title">
-            Made from the
+            A Glimpse Into
             <br />
-            <em>little things.</em>
+            <em>My World.</em>
           </h2>
           <p className="about-gallery-section__bio">{portfolioCopy.biography}</p>
           <div className="about-gallery-section__signature">
