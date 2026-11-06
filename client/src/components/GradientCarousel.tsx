@@ -703,7 +703,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
             const next = mod(openArt + (dx < 0 ? 1 : -1), count);
             setOpenArt(next);
             goTo(next);
-            window.setTimeout(() => { suppressOverlayClick.current = false; }, 0);
+            window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
           }
         }}
         onPointerCancel={() => { overlaySwipeStart.current = null; }}
