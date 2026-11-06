@@ -908,12 +908,7 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           {open && (
             <figure className="dr__figure">
               <img src={open.src} alt={open.alt} draggable={false} />
-              {p.captions && (open.title || open.subtitle) && (
-                <figcaption>
-                  {open.title && <strong>{open.title}</strong>}
-                  {open.subtitle && <span>{open.subtitle}</span>}
-                </figcaption>
-              )}
+
             </figure>
           )}
           <button
