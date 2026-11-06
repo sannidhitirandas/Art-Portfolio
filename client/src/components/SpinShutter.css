@@ -138,7 +138,7 @@
 .spin-orbit__open.is-on {
   opacity: 1;
   pointer-events: auto;
-  background: rgba(12, 7, 18, 0.72);
+  background: rgba(12, 7, 18, 0.96);
   backdrop-filter: blur(4px);
 }
 
@@ -211,5 +211,20 @@
   .spin-orbit__open,
   .spin-orbit__figure {
     transition: none;
+  }
+}
+
+
+/* Open artwork is intentionally image-only: no titles or captions. */
+.spin-orbit__caption.is-hidden { visibility: hidden; }
+.spin-orbit__figure figcaption { display: none !important; }
+
+@media (max-width: 600px) {
+  .spin-orbit__open { padding: 12px; }
+  .spin-orbit__figure { width: 100%; }
+  .spin-orbit__figure img {
+    max-width: 100%;
+    max-height: 78svh;
+    border-radius: 10px;
   }
 }
