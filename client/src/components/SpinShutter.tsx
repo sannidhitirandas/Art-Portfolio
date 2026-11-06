@@ -690,8 +690,7 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
             ctx.font = `300 ${Math.round(d.h * 0.3)}px ${fontFamily}`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(String(d.art + 1).padStart(2, "0"), d.x, d.y);
-          }
+            }
 
           s.hits.push({ art: d.art, x: x0, y: y0, w: d.w, h: d.h, z: d.depth });
         }
@@ -970,7 +969,7 @@ export const SpinShutterSection = forwardRef<SpinShutterHandle, SpinShutterProps
     return (
       <section className="spin-shutter" aria-label="Spin Shutter art collection">
         <div className="spin-shutter__heading">
-          <p>THE ART COLLECTION · {spinShutterArtworks.length} PIECES</p>
+          <p>THE ART COLLECTION</p>
           <h2>
             Behind the <em>shutter.</em>
           </h2>
