@@ -6,10 +6,10 @@ export const spinShutterArtworks: SpinArtwork[] = Array.from(
     const id = String(number).padStart(2, "0");
     return {
       id,
-      title: `Artwork ${number}`,
+      title: "",
       note: "A little piece of my imagination",
       image: `/spinshutter artworks/artwork-${id}.jpg`,
-      alt: `Sunny's Spin Shutter artwork ${number}`,
+      alt: "Artwork from Sunny's collection",
     };
   }
 );
