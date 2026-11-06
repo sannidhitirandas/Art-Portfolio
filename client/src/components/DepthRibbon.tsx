@@ -694,11 +694,6 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
             g.addColorStop(1, "#30213a");
             ctx.fillStyle = g;
             ctx.fillRect(0, 0, Ws, Hs);
-            ctx.fillStyle = "#f3bbd2";
-            ctx.font = `300 ${Math.round(Hs * 0.26)}px "Cormorant Garamond", Georgia, serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(String((itemIdx >= 0 ? itemIdx : v.card) + 1).padStart(2, "0"), Ws / 2, Hs / 2);
           }
           ctx.restore();
           if (alpha > 0.12) s.hits.push({ card: v.card, q: v.q });
