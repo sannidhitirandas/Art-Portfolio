@@ -638,11 +638,10 @@ export default function GradientCarousel(props: GradientCarouselProps) {
               style={{ width: cardW, height: cardH }}
               aria-hidden={i !== center}
             >
-              <span className="gc__num">{String(i + 1).padStart(2, "0")}</span>
               {showImage && (
                 <img
                   src={src}
-                  alt={`Artwork ${i + 1}`}
+                  alt="Artwork"
                   draggable={false}
                   decoding="async"
                   onError={() =>
@@ -659,11 +658,6 @@ export default function GradientCarousel(props: GradientCarouselProps) {
         })}
       </div>
 
-      <div className="gc__meta" aria-live="polite">
-        <span>
-          {String(center + 1).padStart(2, "0")} / {String(count).padStart(2, "0")}
-        </span>
-      </div>
     </div>
   );
 }
