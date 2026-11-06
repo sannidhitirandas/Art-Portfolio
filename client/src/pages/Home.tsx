@@ -12,9 +12,10 @@ import "./PortfolioSections.css";
 
 const reelRows = buildReelRows(artwork, 5, 36);
 const navigation = [
-  { label: "MY ART", href: "#my-art" },
-  { label: "ABOUT", href: "#about" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "Sunny", href: "#sunny" },
+  { label: "About", href: "#about" },
+  { label: "My Art", href: "#my-art" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Home() {
@@ -26,7 +27,6 @@ export default function Home() {
           style={{ "--lh-y": "-20px" } as CSSProperties}
           aria-label="Main navigation"
         >
-          <a href="#sunny">SUNNY</a>
           {navigation.map(item => (
             <a key={item.href} href={item.href}>
               {item.label}
@@ -50,19 +50,12 @@ export default function Home() {
             an artist turning little thoughts and feelings into art, one sketch
             at a time
           </p>
-          <a
-            className="lh-contact lh-fade"
-            style={{ "--lh-d": ".5s" } as CSSProperties}
-            href={`mailto:${portfolioCopy.email}`}
-          >
-            Contact Me
-          </a>
         </div>
         <LivingPortrait />
       </section>
 
       {/* The reels and About copy are deliberately one shared section. */}
-      <section className="about-gallery-section" id="my-art" aria-labelledby="about-title">
+      <section className="about-gallery-section" id="about" aria-labelledby="about-title">
         <div className="about-gallery-section__reels" aria-hidden="true">
           <ReelGallery
             rows={reelRows}
@@ -75,7 +68,7 @@ export default function Home() {
         </div>
         <div className="about-gallery-section__shade" aria-hidden="true" />
         <div className="about-gallery-section__nav eyebrow">01 / A LITTLE ABOUT ME</div>
-        <div className="about-gallery-section__content" id="about">
+        <div className="about-gallery-section__content">
           <p className="eyebrow">A NOTE FROM SUNNY</p>
           <h2 id="about-title">
             Made from the
@@ -95,7 +88,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="showcase-section showcase-section--spin" aria-label="Spin shutter artwork gallery">
+      <section className="showcase-section showcase-section--spin" id="my-art" aria-label="Spin shutter artwork gallery">
         <SpinShutter />
       </section>
 
