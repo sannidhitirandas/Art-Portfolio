@@ -47,8 +47,7 @@ export default function Home() {
             className="lh-intro lh-fade"
             style={{ "--lh-d": ".35s" } as CSSProperties}
           >
-            an artist turning little thoughts and feelings into art, one sketch
-            at a time
+            an artist turning little thoughts and feelings into art
           </p>
         </div>
         <LivingPortrait />
