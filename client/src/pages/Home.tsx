@@ -81,7 +81,7 @@ export default function Home() {
         </div>
         <p className="about-gallery-section__footnote">
           {hasRealArtwork(artwork)
-            ? "A little home for the art, ideas, and moments still taking shape."
+            ? "A little home for the art"
             : "Your artwork will fill these reels as you add images to your portfolio."}
         </p>
       </section>

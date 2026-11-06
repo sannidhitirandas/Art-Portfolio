@@ -162,7 +162,7 @@ export default function Home() {
           </div>
         </div>
         <p className="reveal-child about-section__footnote">
-          A little home for the art, ideas, and moments still taking shape.
+          A little home for the art
         </p>
       </StickySection>
 
