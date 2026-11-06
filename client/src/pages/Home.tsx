@@ -96,6 +96,7 @@ export default function Home() {
         <div className="showcase-section__heading">
           <p className="eyebrow">03 / IN COLOUR</p>
           <h2 id="carousel-title">A different <em>perspective.</em></h2>
+          <p className="showcase-section__description">A collection of my colourful artworks.</p>
         </div>
         <GradientCarousel images={gradientArtworks} />
       </section>
@@ -104,6 +105,7 @@ export default function Home() {
         <div className="showcase-section__heading">
           <p className="eyebrow">04 / THE LITTLE DETAILS</p>
           <h2 id="ribbon-title">Take a closer <em>look.</em></h2>
+          <p className="showcase-section__description">Lyrics art inspired by words and music.</p>
         </div>
         <div className="depth-ribbon-frame">
           <DepthRibbon items={depthRibbonItems} aspect={3 / 4} />
