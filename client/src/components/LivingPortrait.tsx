@@ -156,9 +156,9 @@ export default function LivingPortrait() {
   // ---- state ----
   const EYE = [.51, .34];               // where her eyes sit in the picture
   let ready = false, visible = true, last = performance.now(), tStart = 0;
-  let pu = .5, pv = .5, onHead = false, lastX = 0, lastY = 0;
+  let pu = EYE[0], pv = EYE[1], onHead = false, lastX = 0, lastY = 0;
   let awake = false, awakeAt = 0, lastInput = 0, nextIdle = 30000 + Math.random() * 15000;
-  let nextBlink = 0, blinkUntil = 0, scrollUntil = 0, lastScroll = scrollY;
+  let scrollUntil = 0, lastScroll = scrollY;
   let faceA = REST, faceB = REST, fadeT = 0, fadeMs = 1;
   let leanX = 0, leanY = 0, lvX = 0, lvY = 0, wantLean = [0, 0];
   let act = null, actI = 0, actT = 0, rotation = [];
@@ -189,7 +189,7 @@ export default function LivingPortrait() {
   const solid = (u, v) => { const a = (u - .52) / .4, b = (v - .55) / .5; return a * a + b * b < 1; };
   function wake(now) {
     lastInput = now; nextIdle = 30000 + Math.random() * 15000;
-    if (!awake) { awake = true; awakeAt = now; nextBlink = now + 1800; }
+    if (!awake) { awake = true; awakeAt = now; }
   }
   listen(window, 'pointermove', (e) => {
     const now = performance.now(), dx = e.clientX - lastX, dy = e.clientY - lastY; lastX = e.clientX; lastY = e.clientY;
@@ -237,12 +237,10 @@ export default function LivingPortrait() {
 
     // which picture
     let n;
-    if (!awake) n = CLOSED;                                    // asleep until the first move
-    else if (act) n = act[actI][0];
-    else if (now - awakeAt < 110) n = DOWN;                    // half-open on the way up
-    else if (now < blinkUntil) n = CLOSED;
+    // This picture set has no closed-eye frame (g13 is her head tilted down, eyes lowered), so there is no
+    // blink and no sleep/wake swap: swapping to it made her whole head jump. She just follows the cursor.
+    if (act) n = act[actI][0];
     else {
-      if (now > nextBlink) { blinkUntil = now + 95; nextBlink = now + 2200 + Math.random() * 3400; }
       const t = now < scrollUntil ? [0, .2] : [pu - EYE[0], pv - EYE[1]];
       n = gazeFor(t[0], t[1]);
     }
