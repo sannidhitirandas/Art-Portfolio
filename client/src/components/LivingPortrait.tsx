@@ -30,15 +30,14 @@ export default function LivingPortrait() {
   // 0 = right, 90 = up, 180 = left, 270 = down.
   const GAZE = [
     {n: 'g10', a: 0},     // right
-    {n: 'g15', a: 28},    // right, slightly up
-    {n: 'g4', a: 55},     // up-right
+    {n: 'g4', a: 45},     // up-right
     {n: 'g2', a: 90},     // up
     {n: 'g6', a: 135},    // up-left
     {n: 'g1', a: 180},    // left
     {n: 'g11', a: 205},   // left, slightly down
     {n: 'g8', a: 235},    // down-left
-    {n: 'g13', a: 270},   // down
-    {n: 'g14', a: 315}    // down-right
+    {n: 'g3', a: 270},    // down
+    {n: 'g7', a: 315}     // down-right
   ];
   const REST = 'g0', CLOSED = 'g5', DOWN = 'g3';
   const gazeFor = (dx, dy) => {
