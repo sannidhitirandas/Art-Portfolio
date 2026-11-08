@@ -33,6 +33,15 @@ export default function Home() {
             </a>
           ))}
         </nav>
+        <div className="lh-title-wrap">
+          <h1
+            id="hero-title"
+            className="lh-title lh-fade"
+            style={{ "--lh-y": "40px", "--lh-d": ".15s" } as CSSProperties}
+          >
+            Hi, i&apos;m sunny
+          </h1>
+        </div>
         <div className="lh-bottom">
           <p
             className="lh-intro lh-fade"
