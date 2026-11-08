@@ -399,3 +399,11 @@
   .collab-section__details { padding: 25px 20px; gap: 24px 14px; }
   .collab-stat strong { font-size: 40px; }
 }
+
+/* Social and email contact live inside the collaboration section. */
+.collab-section__contact { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; padding-top: 22px; border-top: 1px solid rgba(243, 187, 210, .18); }
+.collab-section__contact img { width: 64px; height: 64px; flex: 0 0 64px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(243, 187, 210, .65); }
+.collab-section__contact > div { display: grid; gap: 10px; min-width: 0; }
+.collab-section__contact a { color: #f3bbd2; font-size: 11px; letter-spacing: .04em; overflow-wrap: anywhere; }
+.collab-section__contact a span { margin-left: 5px; font-size: 15px; }
+@media (max-width: 700px) { .collab-section__contact img { width: 58px; height: 58px; flex-basis: 58px; } }
