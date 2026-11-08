@@ -16,7 +16,6 @@ const navigation = [
   { label: "About", href: "#about" },
   { label: "My Art", href: "#my-art" },
   { label: "Collaborate", href: "#collaborate" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Home() {
@@ -112,7 +111,7 @@ export default function Home() {
       <section className="collab-section section-pad" id="collaborate" aria-labelledby="collab-title">
         <div className="collab-section__intro">
           <p className="eyebrow">LET’S MAKE SOMETHING MEANINGFUL</p>
-          <h2 id="collab-title">Open to lovely<br /><em>collaborations.</em></h2>
+          <h2 id="collab-title">Let’s create<br /><em>something together.</em></h2>
           <p className="collab-section__description">
             I create art inspired by lyrics, characters, colours, and the little details
             that make a story feel special. I’d love to bring that creative energy to
@@ -134,34 +133,13 @@ export default function Home() {
             </ul>
           </div>
           <p className="collab-section__note">Art supplies, stationery, and creative brands are especially close to my heart.</p>
-        </div>
-      </section>
-
-      <section className="contact-section section-pad" id="contact">
-        <div className="contact-section__copy">
-          <h2 id="contact-title">
-            Have a little
-            <br />
-            <em>hello?</em>
-          </h2>
-          <p>For kind notes, creative thoughts, or simply to say hi.</p>
-          <a className="contact-link" href={`mailto:${portfolioCopy.email}`}>
-            <span>{portfolioCopy.email}</span>
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-        <div className="contact-instagram">
-          <img src="/instagram-pfp.jpg" alt="Sunny's illustrated Instagram profile picture" />
-          <a
-            className="contact-instagram__link"
-            href="https://www.instagram.com/artistic._.sunny/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <span>Instagram</span>
-            <strong>@artistic._.sunny</strong>
-            <span aria-hidden="true">↗</span>
-          </a>
+          <div className="collab-section__contact">
+            <img src="/instagram-pfp.jpg" alt="Sunny's illustrated Instagram profile picture" />
+            <div>
+              <a href="https://www.instagram.com/artistic._.sunny/" target="_blank" rel="noreferrer">@artistic._.sunny <span aria-hidden="true">↗</span></a>
+              <a href={"mailto:" + portfolioCopy.email}>{portfolioCopy.email} <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
         </div>
       </section>
 
