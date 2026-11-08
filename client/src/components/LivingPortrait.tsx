@@ -25,20 +25,20 @@ export default function LivingPortrait() {
       cleanups.push(() => target.removeEventListener(type, fn, opts));
     };
 
-  const FILES = 12;
-  // Gaze direction of each picture (as the viewer sees it). Angle in degrees, 0 = looking right, counter-clockwise.
+  const FILES = 17;
+  // Calibrated against the replacement portrait exports. Angles use the cursor convention:
+  // 0 = right, 90 = up, 180 = left, 270 = down.
   const GAZE = [
-    {n: 'g9', a: 0},     // right
-    {n: 'g4', a: 25},    // right, slightly up
-    {n: 'g2', a: 90},    // up
-    {n: 'g6', a: 155},   // left, slightly up
-    {n: 'g1', a: 180},   // left
-    {n: 'g8', a: 205},   // down-left
-    {n: 'g11', a: 230},  // down-left, lids lower
-    {n: 'g5', a: 270},   // down (lids lowered, pupils peeking under)
-    {n: 'g7', a: 295},   // down, slightly right
-    {n: 'g10', a: 310},  // down-right
-    {n: 'r2', a: 322}    // down-right
+    {n: 'g10', a: 0},     // right
+    {n: 'g15', a: 28},    // right, slightly up
+    {n: 'g4', a: 55},     // up-right
+    {n: 'g2', a: 90},     // up
+    {n: 'g6', a: 135},    // up-left
+    {n: 'g1', a: 180},    // left
+    {n: 'g11', a: 205},   // left, slightly down
+    {n: 'g8', a: 235},    // down-left
+    {n: 'g13', a: 270},   // down
+    {n: 'g14', a: 315}    // down-right
   ];
   const REST = 'g0', CLOSED = 'g5', DOWN = 'g3';
   const gazeFor = (dx, dy) => {
