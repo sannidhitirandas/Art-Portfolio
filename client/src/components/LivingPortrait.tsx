@@ -305,7 +305,7 @@ export default function LivingPortrait() {
         <img
           ref={fallbackRef}
           src={PORTRAIT_BASE + "g0.webp"}
-          alt="Sunny, a smiling illustrated young woman with long dark hair and a lilac blouse"
+          alt=""
           draggable={false}
         />
         <canvas ref={canvasRef} className="lh-portrait__gl" aria-hidden="true" />
