@@ -15,6 +15,7 @@ const navigation = [
   { label: "Sunny", href: "#sunny" },
   { label: "About", href: "#about" },
   { label: "My Art", href: "#my-art" },
+  { label: "Collaborate", href: "#collaborate" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -105,6 +106,34 @@ export default function Home() {
         </div>
         <div className="depth-ribbon-frame">
           <DepthRibbon items={depthRibbonItems} aspect={3 / 4} />
+        </div>
+      </section>
+
+      <section className="collab-section section-pad" id="collaborate" aria-labelledby="collab-title">
+        <div className="collab-section__intro">
+          <p className="eyebrow">LET’S MAKE SOMETHING MEANINGFUL</p>
+          <h2 id="collab-title">Open to lovely<br /><em>collaborations.</em></h2>
+          <p className="collab-section__description">
+            I create art inspired by lyrics, characters, colours, and the little details
+            that make a story feel special. I’d love to bring that creative energy to
+            brands and projects that feel like a natural fit.
+          </p>
+          <a className="collab-section__cta" href={"mailto:" + portfolioCopy.email + "?subject=" + encodeURIComponent("A creative collaboration with Sunny")}>
+            LET’S WORK TOGETHER <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div className="collab-section__details">
+          <div className="collab-stat"><strong>29K+</strong><span>Instagram community</span></div>
+          <div className="collab-stat"><strong>14.6M+</strong><span>Most-viewed Reel</span></div>
+          <div className="collab-section__formats">
+            <p className="eyebrow">CREATIVE PARTNERSHIPS</p>
+            <ul>
+              <li>Sponsored art &amp; illustration content</li>
+              <li>Product features and creative demonstrations</li>
+              <li>Brand collaborations and UGC</li>
+            </ul>
+          </div>
+          <p className="collab-section__note">Art supplies, stationery, and creative brands are especially close to my heart.</p>
         </div>
       </section>
 
