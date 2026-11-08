@@ -325,3 +325,77 @@
   .gc__stage,
   .dr__stage { cursor: default; }
 }
+
+/* Creator collaboration invitation */
+.collab-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  align-items: center;
+  gap: clamp(48px, 9vw, 130px);
+  background: radial-gradient(ellipse at 82% 35%, rgba(119, 72, 111, .2), transparent 48%), #21152b;
+}
+.collab-section__intro h2 {
+  margin: 22px 0 0;
+  color: #fff4f8;
+  font: 400 clamp(48px, 6.5vw, 88px)/.96 "Cormorant Garamond", serif;
+  letter-spacing: -.045em;
+}
+.collab-section__intro h2 em { color: #f3bbd2; font-weight: 400; }
+.collab-section__description {
+  max-width: 560px;
+  margin: 28px 0 32px;
+  color: #d0c0d5;
+  font: 19px/1.55 "Cormorant Garamond", serif;
+}
+.collab-section__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f3bbd2;
+  color: #f3bbd2;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+}
+.collab-section__cta span { font-size: 18px; }
+.collab-section__details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px 22px;
+  padding: clamp(26px, 4vw, 48px);
+  border: 1px solid rgba(243, 187, 210, .2);
+  background: rgba(16, 11, 22, .28);
+}
+.collab-stat { display: flex; flex-direction: column; gap: 8px; }
+.collab-stat strong {
+  color: #f3bbd2;
+  font: 400 clamp(36px, 4vw, 54px)/1 "Cormorant Garamond", serif;
+}
+.collab-stat span { color: #c0afc5; font-size: 10px; letter-spacing: .08em; }
+.collab-section__formats { grid-column: 1 / -1; }
+.collab-section__formats ul {
+  display: grid;
+  gap: 13px;
+  margin: 18px 0 0;
+  padding: 0;
+  color: #eee2ef;
+  font: 17px/1.4 "Cormorant Garamond", serif;
+  list-style: none;
+}
+.collab-section__formats li::before { content: "✳"; margin-right: 12px; color: #f3bbd2; }
+.collab-section__note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(243, 187, 210, .18);
+  color: #a997b0;
+  font: italic 16px/1.5 "Cormorant Garamond", serif;
+}
+@media (max-width: 700px) {
+  .collab-section { grid-template-columns: 1fr; gap: 42px; }
+  .collab-section__intro h2 { font-size: clamp(48px, 12vw, 68px); }
+  .collab-section__description { font-size: 18px; }
+  .collab-section__details { padding: 25px 20px; gap: 24px 14px; }
+  .collab-stat strong { font-size: 40px; }
+}
