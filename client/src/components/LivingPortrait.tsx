@@ -7,7 +7,7 @@ import "./LivingHero.css";
  * Only one picture is on screen at a time (70ms crossfade at most). The code picks which one
  * to show and moves the skin on a soft WebGL sheet; it never composites or fakes eyes.
  *
- * The pictures live in client/public/portrait (g0..g11 and r2, all .webp).
+ * The pictures live in client/public/portrait (g0..g16, all .webp, 800x800).
  */
 const PORTRAIT_BASE = "/portrait/";
 
@@ -26,28 +26,27 @@ export default function LivingPortrait() {
     };
 
   const FILES = 17;
-  // Calibrated against the replacement portrait exports. Angles use the cursor convention:
-  // 0 = right, 90 = up, 180 = left, 270 = down.
-  // Direction map calibrated against the actual exported frames.
-  // Angles follow cursor coordinates: 0 = right, 90 = up, 180 = left, 270 = down.
+  // Direction map calibrated against the 3D portrait set (g0..g16), checking where the irises sit
+  // in each picture. Angles follow cursor coordinates: 0 = right, 90 = up, 180 = left, 270 = down.
+  // g0 is the forward-facing rest pose, g13 has the eyes closed and g2 is the lowered-lid look down.
   const GAZE = [
-    {n: 'g10', a: 0},     // right
-    {n: 'g15', a: 18},    // slight right
-    {n: 'g9', a: 32},     // right / up-right
-    {n: 'r2', a: 12},     // right
-    {n: 'g4', a: 48},     // up-right
-    {n: 'g16', a: 68},    // up-right
-    {n: 'g2', a: 90},     // up
-    {n: 'g6', a: 135},    // up-left
-    {n: 'g1', a: 180},    // left
-    {n: 'g11', a: 195},   // left
-    {n: 'g8', a: 230},    // down-left
-    {n: 'g12', a: 245},   // down-left
-    {n: 'g14', a: 255},   // down-left
-    {n: 'g3', a: 285},    // down
-    {n: 'g7', a: 315}     // down-right
+    {n: 'g15', a: 0},     // far right
+    {n: 'g4', a: 8},      // right
+    {n: 'g8', a: 18},     // slight right
+    {n: 'g5', a: 30},     // right, a little up
+    {n: 'g16', a: 52},    // up-right
+    {n: 'g1', a: 75},     // up, at the viewer
+    {n: 'g9', a: 90},     // up
+    {n: 'g10', a: 135},   // up-left
+    {n: 'g6', a: 155},    // left, a little up
+    {n: 'g11', a: 170},   // left
+    {n: 'g3', a: 180},    // left
+    {n: 'g7', a: 200},    // left, a little down
+    {n: 'g12', a: 225},   // down-left
+    {n: 'g2', a: 270},    // down
+    {n: 'g14', a: 330}    // down-right
   ];
-  const REST = 'g0', CLOSED = 'g5', DOWN = 'g3';
+  const REST = 'g0', CLOSED = 'g13', DOWN = 'g2';
   const gazeFor = (dx, dy) => {
     // vertical distance counts less than horizontal: her head sits tall on the page, so a cursor to the
     // lower right of her would otherwise read as "straight down" and she would never glance sideways
@@ -169,10 +168,10 @@ export default function LivingPortrait() {
 
   // idle acts: whole-picture sequences built from the gaze pictures
   const ACTS = {
-    shifty: [['g1', 520], ['g9', 620], ['g1', 420], ['g9', 300], [REST, 300]],
-    roll: [['g1', 200], ['g6', 120], ['g2', 160], ['g4', 120], ['g9', 160], ['r2', 260], [REST, 400]],
+    shifty: [['g3', 520], ['g8', 620], ['g3', 420], ['g8', 300], [REST, 300]],
+    roll: [['g3', 200], ['g10', 120], ['g9', 160], ['g16', 120], ['g8', 160], ['g15', 260], [REST, 400]],
     doze: [[DOWN, 700, [.006, .006]], [CLOSED, 900, [.014, .014]], [CLOSED, 2800, [.03, .03]], [DOWN, 300, [.01, .01], [.5, .5, 0, -.9, .3]], [REST, 500]],
-    peek: [['g8', 600], ['g1', 500], ['g2', 700], [REST, 400]]
+    peek: [['g7', 600], ['g3', 500], ['g9', 700], [REST, 400]]
   };
   const ROTATION = ['shifty', 'roll', 'peek', 'doze'];
   function startAct(name, now) { act = ACTS[name]; actI = -1; advance(now); }
@@ -281,7 +280,7 @@ export default function LivingPortrait() {
   (async () => {
     // Load every frame before enabling cursor tracking so the first gaze choice
     // can never reference a texture that has not arrived yet.
-    const names = ['r2', ...Array.from({length: FILES}, (_, i) => 'g' + i)];
+    const names = Array.from({length: FILES}, (_, i) => 'g' + i);
     const loaded = await Promise.all(names.map(async n => [n, await load(n)]));
     if (disposed) return;
     for (const [n, img] of loaded) if (img) upload(n, img);
