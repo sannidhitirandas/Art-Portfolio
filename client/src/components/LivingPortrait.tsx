@@ -28,15 +28,23 @@ export default function LivingPortrait() {
   const FILES = 17;
   // Calibrated against the replacement portrait exports. Angles use the cursor convention:
   // 0 = right, 90 = up, 180 = left, 270 = down.
+  // Direction map calibrated against the actual exported frames.
+  // Angles follow cursor coordinates: 0 = right, 90 = up, 180 = left, 270 = down.
   const GAZE = [
     {n: 'g10', a: 0},     // right
-    {n: 'g4', a: 45},     // up-right
+    {n: 'g15', a: 18},    // slight right
+    {n: 'g9', a: 32},     // right / up-right
+    {n: 'r2', a: 12},     // right
+    {n: 'g4', a: 48},     // up-right
+    {n: 'g16', a: 68},    // up-right
     {n: 'g2', a: 90},     // up
     {n: 'g6', a: 135},    // up-left
     {n: 'g1', a: 180},    // left
-    {n: 'g11', a: 205},   // left, slightly down
-    {n: 'g8', a: 235},    // down-left
-    {n: 'g3', a: 270},    // down
+    {n: 'g11', a: 195},   // left
+    {n: 'g8', a: 230},    // down-left
+    {n: 'g12', a: 245},   // down-left
+    {n: 'g14', a: 255},   // down-left
+    {n: 'g3', a: 285},    // down
     {n: 'g7', a: 315}     // down-right
   ];
   const REST = 'g0', CLOSED = 'g5', DOWN = 'g3';
@@ -271,14 +279,15 @@ export default function LivingPortrait() {
   }
 
   (async () => {
-    const base = await load(REST); if (!base || disposed) return;
-    upload(REST, base);
-    const first = await Promise.all([CLOSED, DOWN].map(async n => { const i = await load(n); if (i) upload(n, i); }));
-    fallback.style.visibility = 'hidden';
+    // Load every frame before enabling cursor tracking so the first gaze choice
+    // can never reference a texture that has not arrived yet.
+    const names = ['r2', ...Array.from({length: FILES}, (_, i) => 'g' + i)];
+    const loaded = await Promise.all(names.map(async n => [n, await load(n)]));
     if (disposed) return;
+    for (const [n, img] of loaded) if (img) upload(n, img);
+    if (!tex[REST]) return;
+    fallback.style.visibility = 'hidden';
     ready = true; tStart = performance.now(); raf = requestAnimationFrame(frame);
-    const names = ['r2']; for (let i = 0; i < FILES; i++) { const n = 'g' + i; if (!tex[n]) names.push(n); }
-    await Promise.all(names.map(async n => { const i = await load(n); if (i && !disposed) upload(n, i); }));
   })();
 
     cleanups.push(() => { io.disconnect(); ro.disconnect(); });
