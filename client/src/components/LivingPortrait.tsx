@@ -26,34 +26,37 @@ export default function LivingPortrait() {
     };
 
   const FILES = 17;
-  // Direction map calibrated against the 3D portrait set (g0..g16), checking where the irises sit
-  // in each picture. Angles follow cursor coordinates: 0 = right, 90 = up, 180 = left, 270 = down.
-  // g0 is the forward-facing rest pose, g13 has the eyes closed and g2 is the lowered-lid look down.
+  // The portraits form a 5x5 gaze grid. Each entry is where she is looking, in grid steps from
+  // straight ahead: x runs left (-2) to right (+2) and y runs down (-2) to up (+2), as the viewer
+  // sees it. The cursor is turned into the same grid and the nearest picture is shown.
+  //   g10  .  g9  .  g16        up-left / up / up-right
+  //    . g6  g1  g5  .
+  //   g11 g3  g0  g4 g15        left ... right
+  //    . g7  g2  g8  .
+  //   g12  . g13  .  g14        down-left / down / down-right
   const GAZE = [
-    {n: 'g15', a: 0},     // far right
-    {n: 'g4', a: 8},      // right
-    {n: 'g8', a: 18},     // slight right
-    {n: 'g5', a: 30},     // right, a little up
-    {n: 'g16', a: 52},    // up-right
-    {n: 'g1', a: 75},     // up, at the viewer
-    {n: 'g9', a: 90},     // up
-    {n: 'g10', a: 135},   // up-left
-    {n: 'g6', a: 155},    // left, a little up
-    {n: 'g11', a: 170},   // left
-    {n: 'g3', a: 180},    // left
-    {n: 'g7', a: 200},    // left, a little down
-    {n: 'g12', a: 225},   // down-left
-    {n: 'g2', a: 270},    // down
-    {n: 'g14', a: 330}    // down-right
+    {n: 'g10', x: -2, y: 2}, {n: 'g9', x: 0, y: 2}, {n: 'g16', x: 2, y: 2},
+    {n: 'g6', x: -1, y: 1}, {n: 'g1', x: 0, y: 1}, {n: 'g5', x: 1, y: 1},
+    {n: 'g11', x: -2, y: 0}, {n: 'g3', x: -1, y: 0}, {n: 'g0', x: 0, y: 0}, {n: 'g4', x: 1, y: 0}, {n: 'g15', x: 2, y: 0},
+    {n: 'g7', x: -1, y: -1}, {n: 'g2', x: 0, y: -1}, {n: 'g8', x: 1, y: -1},
+    {n: 'g12', x: -2, y: -2}, {n: 'g13', x: 0, y: -2}, {n: 'g14', x: 2, y: -2}
   ];
   const REST = 'g0', CLOSED = 'g13', DOWN = 'g2';
+  // How far the cursor must be from her eyes (as a fraction of the picture) to reach one grid step.
+  const STEP_X = .2, STEP_Y = .15;
+  let curGaze = REST;
   const gazeFor = (dx, dy) => {
-    // vertical distance counts less than horizontal: her head sits tall on the page, so a cursor to the
-    // lower right of her would otherwise read as "straight down" and she would never glance sideways
-    const ang = (Math.atan2(-dy * .4, dx) * 180 / Math.PI + 360) % 360;
-    let best = GAZE[0], bd = 999;
-    for (const g of GAZE) { const d = Math.abs(((ang - g.a + 540) % 360) - 180); if (d < bd) { bd = d; best = g; } }
-    return best.n;
+    // dx, dy: cursor minus her eyes, in picture units, y pointing down the page
+    const gx = Math.max(-2.4, Math.min(2.4, dx / STEP_X)), gy = Math.max(-2.4, Math.min(2.4, -dy / STEP_Y));
+    let best = GAZE[0], bd = 1e9, curD = 1e9;
+    for (const g of GAZE) {
+      const d = Math.hypot(g.x - gx, g.y - gy);
+      if (d < bd) { bd = d; best = g; }
+      if (g.n === curGaze) curD = d;
+    }
+    // hysteresis: stay on the current picture unless another is clearly closer, so she doesn't flicker at borders
+    if (curD - bd < .18) return curGaze;
+    curGaze = best.n; return best.n;
   };
 
   const smallScreen = matchMedia('(max-width: 700px)').matches;
@@ -168,8 +171,8 @@ export default function LivingPortrait() {
 
   // idle acts: whole-picture sequences built from the gaze pictures
   const ACTS = {
-    shifty: [['g3', 520], ['g8', 620], ['g3', 420], ['g8', 300], [REST, 300]],
-    roll: [['g3', 200], ['g10', 120], ['g9', 160], ['g16', 120], ['g8', 160], ['g15', 260], [REST, 400]],
+    shifty: [['g3', 520], ['g4', 620], ['g3', 420], ['g4', 300], [REST, 300]],
+    roll: [['g11', 200], ['g10', 120], ['g9', 160], ['g16', 120], ['g15', 160], ['g4', 260], [REST, 400]],
     doze: [[DOWN, 700, [.006, .006]], [CLOSED, 900, [.014, .014]], [CLOSED, 2800, [.03, .03]], [DOWN, 300, [.01, .01], [.5, .5, 0, -.9, .3]], [REST, 500]],
     peek: [['g7', 600], ['g3', 500], ['g9', 700], [REST, 400]]
   };
@@ -240,8 +243,8 @@ export default function LivingPortrait() {
     else if (now < blinkUntil) n = CLOSED;
     else {
       if (now > nextBlink) { blinkUntil = now + 95; nextBlink = now + 2200 + Math.random() * 3400; }
-      const t = now < scrollUntil ? [0, 1] : [pu - EYE[0], pv - EYE[1]];
-      n = Math.hypot(t[0], t[1]) < .13 ? REST : gazeFor(t[0], t[1]);
+      const t = now < scrollUntil ? [0, .2] : [pu - EYE[0], pv - EYE[1]];
+      n = gazeFor(t[0], t[1]);
     }
     show(n, now);
 
