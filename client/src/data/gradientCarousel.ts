@@ -7,6 +7,6 @@ export const gradientArtworks: string[] = Array.from(
   { length: 40 },
   (_, index) => {
     const id = String(index + 1).padStart(2, "0");
-    return `/gradient carousel artworks/artwork-${id}.jpg`;
+    return `/optimized-artworks-v2/gradient carousel artworks/artwork-${id}.webp`;
   }
 );

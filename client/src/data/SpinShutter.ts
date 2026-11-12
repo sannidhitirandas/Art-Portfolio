@@ -8,7 +8,7 @@ export const spinShutterArtworks: SpinArtwork[] = Array.from(
       id,
       title: "",
       note: "A little bit of everything I am.",
-      image: `/spinshutter artworks/artwork-${id}.jpg`,
+      image: `/optimized-artworks-v2/spinshutter artworks/artwork-${id}.webp`,
       alt: "Artwork from Sunny's collection",
     };
   }

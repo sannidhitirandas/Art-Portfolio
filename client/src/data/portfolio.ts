@@ -24,7 +24,7 @@ export const artwork: Artwork[] = Array.from({ length: 36 }, (_, index) => {
     id,
     title: `Artwork ${number}`,
     note: "A little piece of my imagination",
-    image: `/gallery artworks/artwork-${id}.jpg`,
+    image: `/optimized-artworks-v2/gallery artworks/artwork-${id}.webp`,
     alt: `Sunny's artwork ${number}`,
     format: "portrait" as const,
   };

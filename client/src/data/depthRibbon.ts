@@ -12,7 +12,7 @@ export const depthRibbonItems: DepthRibbonItem[] = Array.from(
     const number = index + 1;
     const id = String(number).padStart(2, "0");
     return {
-      src: `/depth ribbon artworks/artwork-${id}.jpg`,
+      src: `/optimized-artworks-v2/depth ribbon artworks/artwork-${id}.webp`,
       alt: `Sunny's artwork ${number}`,
       title: `Artwork ${number}`,
       subtitle: "A little piece of my imagination",
