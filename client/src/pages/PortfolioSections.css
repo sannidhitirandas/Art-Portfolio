@@ -280,9 +280,9 @@
   .lh-hero { margin-bottom: -58px; }
   .lh-hero::after { height: 150px; }
   .about-gallery-section {
-    height: auto;
-    min-height: max(100svh, 760px);
-    padding: 150px 26px 110px;
+    height: 88svh;
+    min-height: 620px;
+    padding: 150px 26px 100px;
     margin-bottom: -48px;
   }
   .about-gallery-section__nav { left: 26px; }
@@ -508,10 +508,3 @@
   }
 }
 
-/* Keep the full About biography inside the scrollable mobile sheet. */
-@media (max-width: 700px) {
-  .about-gallery-section {
-    height: auto;
-    min-height: max(100svh, 760px);
-  }
-}
