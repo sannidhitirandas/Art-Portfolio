@@ -35,6 +35,17 @@
   overflow: hidden;
   background: #171020;
 }
+.about-gallery-section::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 150px;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, #21152b 94%);
+}
 .about-gallery-section__reels {
   position: absolute;
   inset: 0;
@@ -299,7 +310,7 @@
 @media (max-width: 700px) {
   .about-gallery-section {
     min-height: 600px;
-    padding: 92px 22px 94px;
+    padding: 142px 22px 94px;
   }
   .about-gallery-section__content h2 {
     font-size: clamp(46px, 12vw, 68px);
