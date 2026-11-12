@@ -743,7 +743,7 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
       moved: number;
     } | null>(null);
 
-    const local = (e: React.PointerEvent) => {
+    const local = (e: { clientX: number; clientY: number }) => {
       const r = stageRef.current!.getBoundingClientRect();
       return { x: e.clientX - r.left, y: e.clientY - r.top };
     };
@@ -753,8 +753,11 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
         (h) => x >= h.x && x <= h.x + h.w && y >= h.y && y <= h.y + h.h,
       ) ?? null;
 
+    const suppressStageClick = useRef(false);
+
     const onPointerDown = (e: React.PointerEvent) => {
       if (e.button > 0) return;
+      suppressStageClick.current = false;
       const pt = local(e);
       const now = performance.now();
       down.current = {
@@ -824,16 +827,8 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
 
       if (s.dragging) {
         s.dragging = false;
+        suppressStageClick.current = true;
         if (performance.now() - d.lt > 90) s.vel = 0;
-        return;
-      }
-      if (d.moved < 5 && performance.now() - d.t < 600) {
-        const pt = local(e);
-        const hit = hitTest(pt.x, pt.y);
-        if (!hit) return;
-        if (live.current.p.openOnClick) open(hit.art);
-        else if (hit.art === s.frontArt && s.target === null) open(hit.art);
-        else api.show(hit.art);
       }
     };
 
@@ -909,6 +904,18 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
           onPointerMove={onPointerMove}
           onPointerUp={endPointer}
           onPointerCancel={endPointer}
+          onClick={(e) => {
+            if (suppressStageClick.current) {
+              suppressStageClick.current = false;
+              return;
+            }
+            const pt = local(e);
+            const hit = hitTest(pt.x, pt.y);
+            if (!hit) return;
+            if (live.current.p.openOnClick) open(hit.art);
+            else if (hit.art === sim.current.frontArt && sim.current.target === null) open(hit.art);
+            else api.show(hit.art);
+          }}
           onPointerEnter={(e) => {
             if (e.pointerType !== "touch") sim.current.hovered = true;
           }}
