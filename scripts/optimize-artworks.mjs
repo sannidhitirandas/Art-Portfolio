@@ -59,14 +59,14 @@ async function optimize() {
           const result = await sharp(image)
             .rotate()
             .resize({
-              width: 2400,
-              height: 2400,
+              width: 1800,
+              height: 1800,
               fit: "inside",
               withoutEnlargement: true,
             })
             .webp({
-              quality: 92,
-              alphaQuality: 100,
+              quality: 82,
+              alphaQuality: 90,
               effort: 6,
               smartSubsample: true,
             })
