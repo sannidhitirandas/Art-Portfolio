@@ -71,8 +71,9 @@
   flex-direction: column;
   align-items: center;
   gap: 14px;
+  width: min(86vw, 1100px);
   max-width: 100%;
-  max-height: 100%;
+  max-height: 82vh;
   margin: 0;
   transform: scale(0.94);
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -82,8 +83,10 @@
 
 .dr__figure img {
   display: block;
+  width: auto;
+  height: auto;
   max-width: 100%;
-  max-height: min(70vh, 760px);
+  max-height: min(76vh, 760px);
   object-fit: contain;
   border-radius: 14px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
@@ -133,10 +136,10 @@
 
 @media (max-width: 700px) {
   .dr__open { padding: 12px; }
-  .dr__figure { width: 100%; }
+  .dr__figure { width: min(88vw, 680px); }
   .dr__figure img {
     max-width: 100%;
-    max-height: 78svh;
+    max-height: 72svh;
     border-radius: 10px;
   }
   .dr__close { top: 10px; right: 10px; }
