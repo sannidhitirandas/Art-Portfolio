@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import { useEffect, useRef } from "react";
 import LivingPortrait from "../components/LivingPortrait";
 import ReelGallery from "../components/ReelGallery";
 import SpinShutter from "../components/SpinShutter";
@@ -20,38 +19,6 @@ const navigation = [
 ];
 
 export default function Home() {
-  const aboutSectionRef = useRef<HTMLElement>(null);
-  const spinSectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const sections = [
-      aboutSectionRef.current,
-      spinSectionRef.current,
-    ].filter((section): section is HTMLElement => section !== null);
-
-    if (!sections.length) return;
-
-    if (!("IntersectionObserver" in window)) {
-      sections.forEach(section => section.classList.add("is-revealed"));
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            (entry.target as HTMLElement).classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08 }
-    );
-
-    sections.forEach(section => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <main id="top" className="portfolio-page">
       <section className="lh-hero" id="sunny" aria-labelledby="hero-title">
@@ -87,7 +54,7 @@ export default function Home() {
       </section>
 
       {/* The reels and About copy are deliberately one shared section. */}
-      <section ref={aboutSectionRef} className="about-gallery-section" id="about" aria-labelledby="about-title">
+      <section className="about-gallery-section" id="about" aria-labelledby="about-title">
         <div className="about-gallery-section__reels" aria-hidden="true">
           <ReelGallery
             rows={reelRows}
@@ -119,7 +86,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section ref={spinSectionRef} className="showcase-section showcase-section--spin" id="my-art" aria-label="Spin shutter artwork gallery">
+      <section className="showcase-section showcase-section--spin" id="my-art" aria-label="Spin shutter artwork gallery">
         <SpinShutter />
       </section>
 
