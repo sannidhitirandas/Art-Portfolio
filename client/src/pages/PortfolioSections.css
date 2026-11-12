@@ -499,3 +499,11 @@
 @media (prefers-reduced-motion: reduce) {
   .portfolio-page .pin-sheet { position: relative; }
 }
+
+/* Keep the hero introduction clear of the incoming stacked sheet on phones.
+   The sheet overlap and scroll stacking remain unchanged. */
+@media (max-width: 700px) {
+  .lh-hero .lh-bottom {
+    padding-bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 56px));
+  }
+}
