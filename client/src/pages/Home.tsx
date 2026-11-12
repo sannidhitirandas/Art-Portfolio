@@ -75,7 +75,7 @@ export default function Home() {
             <br />
             <em>My World.</em>
           </h2>
-          <ScrollText className="about-gallery-section__bio" text={portfolioCopy.biography} offset={["start 0.9", "end 0.65"]} />
+          <ScrollText className="about-gallery-section__bio" text={portfolioCopy.biography} offset={["start 0.9", "end 0.05"]} />
           <div className="about-gallery-section__signature">
             <span aria-hidden="true" />
             Sunny
