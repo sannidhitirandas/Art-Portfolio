@@ -8,6 +8,7 @@ import { artwork, portfolioCopy } from "../data/portfolio";
 import { buildReelRows, hasRealArtwork } from "../data/reelGallery";
 import { gradientArtworks } from "../data/gradientCarousel";
 import { depthRibbonItems } from "../data/depthRibbon";
+import { FadeIn, ScrollText, usePinnedSheets } from "../components/transitions";
 import "./PortfolioSections.css";
 
 const reelRows = buildReelRows(artwork, 5, 36);
@@ -19,9 +20,10 @@ const navigation = [
 ];
 
 export default function Home() {
+  usePinnedSheets();
   return (
     <main id="top" className="portfolio-page">
-      <section className="lh-hero" id="sunny" aria-labelledby="hero-title">
+      <section className="lh-hero pin-sheet" id="sunny" aria-labelledby="hero-title">
         <nav
           className="lh-nav lh-fade"
           style={{ "--lh-y": "-20px" } as CSSProperties}
@@ -54,7 +56,7 @@ export default function Home() {
       </section>
 
       {/* The reels and About copy are deliberately one shared section. */}
-      <section className="about-gallery-section" id="about" aria-labelledby="about-title">
+      <section className="about-gallery-section sheet-over pin-sheet" id="about" aria-labelledby="about-title">
         <div className="about-gallery-section__reels" aria-hidden="true">
           <ReelGallery
             rows={reelRows}
@@ -73,7 +75,7 @@ export default function Home() {
             <br />
             <em>My World.</em>
           </h2>
-          <p className="about-gallery-section__bio">{portfolioCopy.biography}</p>
+          <ScrollText className="about-gallery-section__bio" text={portfolioCopy.biography} offset={["start 0.9", "end 0.65"]} />
           <div className="about-gallery-section__signature">
             <span aria-hidden="true" />
             Sunny
@@ -86,30 +88,30 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="showcase-section showcase-section--spin" id="my-art" aria-label="Spin shutter artwork gallery">
+      <section className="showcase-section showcase-section--spin sheet-over pin-sheet" id="my-art" aria-label="Spin shutter artwork gallery">
         <SpinShutter />
       </section>
 
-      <section className="showcase-section showcase-section--carousel" aria-labelledby="carousel-title">
-        <div className="showcase-section__heading">
+      <section className="showcase-section showcase-section--carousel sheet-over pin-sheet" aria-labelledby="carousel-title">
+        <FadeIn className="showcase-section__heading">
           <h2 id="carousel-title">A World in <em>Colour.</em></h2>
           <p className="showcase-section__description">A collection of my colourful artworks.</p>
-        </div>
+        </FadeIn>
         <GradientCarousel images={gradientArtworks} />
       </section>
 
-      <section className="showcase-section showcase-section--ribbon" aria-labelledby="ribbon-title">
-        <div className="showcase-section__heading">
+      <section className="showcase-section showcase-section--ribbon sheet-over pin-sheet" aria-labelledby="ribbon-title">
+        <FadeIn className="showcase-section__heading">
           <h2 id="ribbon-title">Words Into <em>Art.</em></h2>
           <p className="showcase-section__description">Lyrics art inspired by words and music.</p>
-        </div>
+        </FadeIn>
         <div className="depth-ribbon-frame">
           <DepthRibbon items={depthRibbonItems} aspect={3 / 4} />
         </div>
       </section>
 
-      <section className="collab-section section-pad" id="collaborate" aria-labelledby="collab-title">
-        <div className="collab-section__intro">
+      <section className="collab-section section-pad sheet-over sheet-over--collab" id="collaborate" aria-labelledby="collab-title">
+        <FadeIn className="collab-section__intro">
           <p className="eyebrow">LET’S MAKE SOMETHING MEANINGFUL</p>
           <h2 id="collab-title">Let’s create<br /><em>something together.</em></h2>
           <p className="collab-section__description">
@@ -120,8 +122,8 @@ export default function Home() {
           <a className="collab-section__cta" href={"mailto:" + portfolioCopy.email + "?subject=" + encodeURIComponent("A creative collaboration with Sunny")}>
             LET’S WORK TOGETHER <span aria-hidden="true">↗</span>
           </a>
-        </div>
-        <div className="collab-section__details">
+        </FadeIn>
+        <FadeIn className="collab-section__details" delay={0.15}>
           <div className="collab-stat"><strong>29K+</strong><span>Instagram community</span></div>
           <div className="collab-stat"><strong>14.6M+</strong><span>Most-viewed Post</span></div>
           <div className="collab-section__formats">
@@ -140,7 +142,7 @@ export default function Home() {
               <a href={"mailto:" + portfolioCopy.email}>{portfolioCopy.email} <span aria-hidden="true">↗</span></a>
             </div>
           </div>
-        </div>
+        </FadeIn>
       </section>
 
       <footer className="site-footer">

@@ -1,0 +1,621 @@
+diff --git a/client/src/components/transitions.tsx b/client/src/components/transitions.tsx
+new file mode 100644
+index 0000000..43aecd0
+--- /dev/null
++++ b/client/src/components/transitions.tsx
+@@ -0,0 +1,117 @@
++// client/src/components/transitions.tsx
++// Section transitions modelled on the MotionSites "living portrait" reference.
++// Uses framer-motion (already in package.json)
++import { useRef, type ReactNode } from "react";
++import {
++  motion,
++  useScroll,
++  useTransform,
++  useReducedMotion,
++  type MotionValue,
++} from "framer-motion";
++
++/* 1. FadeIn: whileInView reveal (reference: FadeIn, once, 50px margin) */
++export function FadeIn({
++  children, delay = 0, duration = 0.7, x = 0, y = 30, className,
++}: { children: ReactNode; delay?: number; duration?: number; x?: number; y?: number; className?: string }) {
++  const reduce = useReducedMotion();
++  return (
++    <motion.div
++      className={className}
++      initial={reduce ? false : { opacity: 0, x, y }}
++      whileInView={{ opacity: 1, x: 0, y: 0 }}
++      viewport={{ once: true, margin: "50px", amount: 0 }}
++      transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
++    >
++      {children}
++    </motion.div>
++  );
++}
++
++/* 2. Sheet: a section with rounded top corners that slides up OVER the previous
++      one (reference: Services, Projects use rounded-t-[60px] and a negative top margin) */
++export function Sheet({
++  children, bg = "#0C0C0C", overlap = false, className = "",
++}: { children: ReactNode; bg?: string; overlap?: boolean; className?: string }) {
++  return (
++    <section
++      style={{ background: bg }}
++      className={`relative z-10 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] ${
++        overlap ? "-mt-10 sm:-mt-12 md:-mt-14" : ""
++      } ${className}`}
++    >
++      {children}
++    </section>
++  );
++}
++
++/* 3. StackCard: sticky cards that scale down as the next one covers them */
++export function StackCard({
++  index, total, progress, children,
++}: { index: number; total: number; progress: MotionValue<number>; children: ReactNode }) {
++  const targetScale = 1 - (total - 1 - index) * 0.03;
++  const scale = useTransform(progress, [index / total, 1], [1, targetScale]);
++  return (
++    <div className="h-[85vh]">
++      <motion.div
++        style={{ scale, top: `calc(6rem + ${index * 28}px)` }}
++        className="sticky origin-top rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8"
++      >
++        {children}
++      </motion.div>
++    </div>
++  );
++}
++
++export function CardStack({ cards }: { cards: ReactNode[] }) {
++  const ref = useRef<HTMLDivElement>(null);
++  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
++  return (
++    <div ref={ref}>
++      {cards.map((c, i) => (
++        <StackCard key={i} index={i} total={cards.length} progress={scrollYProgress}>{c}</StackCard>
++      ))}
++    </div>
++  );
++}
++
++/* 4. ScrollMarquee: rows slide sideways as you scroll, opposite directions */
++export function ScrollMarquee({ rows }: { rows: ReactNode[][] }) {
++  const ref = useRef<HTMLDivElement>(null);
++  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
++  const right = useTransform(scrollYProgress, [0, 1], [-200, 400]);
++  const left = useTransform(scrollYProgress, [0, 1], [200, -400]);
++  return (
++    <div ref={ref} className="overflow-hidden py-10">
++      {rows.map((items, r) => (
++        <motion.div key={r} style={{ x: r % 2 ? left : right, willChange: "transform" }} className="mb-3 flex w-max gap-3">
++          {[...items, ...items, ...items]}
++        </motion.div>
++      ))}
++    </div>
++  );
++}
++
++/* 5. ScrollText: characters go from 20% to 100% opacity as you scroll past */
++export function ScrollText({ text, className }: { text: string; className?: string }) {
++  const ref = useRef<HTMLParagraphElement>(null);
++  const reduce = useReducedMotion();
++  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.2"] });
++  const chars = text.split("");
++  return (
++    <p ref={ref} className={className} aria-label={text}>
++      {chars.map((ch, i) => (
++        <Char key={i} ch={ch} i={i} n={chars.length} p={scrollYProgress} still={!!reduce} />
++      ))}
++    </p>
++  );
++}
++
++function Char({ ch, i, n, p, still }: { ch: string; i: number; n: number; p: MotionValue<number>; still: boolean }) {
++  const o = useTransform(p, [i / n, (i + 1) / n], [0.2, 1]);
++  return (
++    <motion.span aria-hidden style={{ opacity: still ? 1 : o }}>
++      {ch}
++    </motion.span>
++  );
++}
+diff --git a/client/src/pages/Home.tsx b/client/src/pages/Home.tsx
+index 5189c63..3fef5cc 100644
+--- a/client/src/pages/Home.tsx
++++ b/client/src/pages/Home.tsx
+@@ -8,6 +8,7 @@ import { artwork, portfolioCopy } from "../data/portfolio";
+ import { buildReelRows, hasRealArtwork } from "../data/reelGallery";
+ import { gradientArtworks } from "../data/gradientCarousel";
+ import { depthRibbonItems } from "../data/depthRibbon";
++import { FadeIn, ScrollText } from "../components/transitions";
+ import "./PortfolioSections.css";
+ 
+ const reelRows = buildReelRows(artwork, 5, 36);
+@@ -54,7 +55,7 @@ export default function Home() {
+       </section>
+ 
+       {/* The reels and About copy are deliberately one shared section. */}
+-      <section className="about-gallery-section" id="about" aria-labelledby="about-title">
++      <section className="about-gallery-section sheet-over" id="about" aria-labelledby="about-title">
+         <div className="about-gallery-section__reels" aria-hidden="true">
+           <ReelGallery
+             rows={reelRows}
+@@ -73,7 +74,7 @@ export default function Home() {
+             <br />
+             <em>My World.</em>
+           </h2>
+-          <p className="about-gallery-section__bio">{portfolioCopy.biography}</p>
++          <ScrollText className="about-gallery-section__bio" text={portfolioCopy.biography} />
+           <div className="about-gallery-section__signature">
+             <span aria-hidden="true" />
+             Sunny
+@@ -91,25 +92,25 @@ export default function Home() {
+       </section>
+ 
+       <section className="showcase-section showcase-section--carousel" aria-labelledby="carousel-title">
+-        <div className="showcase-section__heading">
++        <FadeIn className="showcase-section__heading">
+           <h2 id="carousel-title">A World in <em>Colour.</em></h2>
+           <p className="showcase-section__description">A collection of my colourful artworks.</p>
+-        </div>
++        </FadeIn>
+         <GradientCarousel images={gradientArtworks} />
+       </section>
+ 
+       <section className="showcase-section showcase-section--ribbon" aria-labelledby="ribbon-title">
+-        <div className="showcase-section__heading">
++        <FadeIn className="showcase-section__heading">
+           <h2 id="ribbon-title">Words Into <em>Art.</em></h2>
+           <p className="showcase-section__description">Lyrics art inspired by words and music.</p>
+-        </div>
++        </FadeIn>
+         <div className="depth-ribbon-frame">
+           <DepthRibbon items={depthRibbonItems} aspect={3 / 4} />
+         </div>
+       </section>
+ 
+-      <section className="collab-section section-pad" id="collaborate" aria-labelledby="collab-title">
+-        <div className="collab-section__intro">
++      <section className="collab-section section-pad sheet-over sheet-over--collab" id="collaborate" aria-labelledby="collab-title">
++        <FadeIn className="collab-section__intro">
+           <p className="eyebrow">LET’S MAKE SOMETHING MEANINGFUL</p>
+           <h2 id="collab-title">Let’s create<br /><em>something together.</em></h2>
+           <p className="collab-section__description">
+@@ -120,8 +121,8 @@ export default function Home() {
+           <a className="collab-section__cta" href={"mailto:" + portfolioCopy.email + "?subject=" + encodeURIComponent("A creative collaboration with Sunny")}>
+             LET’S WORK TOGETHER <span aria-hidden="true">↗</span>
+           </a>
+-        </div>
+-        <div className="collab-section__details">
++        </FadeIn>
++        <FadeIn className="collab-section__details" delay={0.15}>
+           <div className="collab-stat"><strong>29K+</strong><span>Instagram community</span></div>
+           <div className="collab-stat"><strong>14.6M+</strong><span>Most-viewed Post</span></div>
+           <div className="collab-section__formats">
+@@ -140,7 +141,7 @@ export default function Home() {
+               <a href={"mailto:" + portfolioCopy.email}>{portfolioCopy.email} <span aria-hidden="true">↗</span></a>
+             </div>
+           </div>
+-        </div>
++        </FadeIn>
+       </section>
+ 
+       <footer className="site-footer">
+diff --git a/client/src/pages/PortfolioSections.css b/client/src/pages/PortfolioSections.css
+index c9a1c25..035f2c2 100644
+--- a/client/src/pages/PortfolioSections.css
++++ b/client/src/pages/PortfolioSections.css
+@@ -462,4 +462,25 @@
+ .collab-section__contact > div { display: grid; gap: 10px; min-width: 0; }
+ .collab-section__contact a { color: #f3bbd2; font-size: 11px; letter-spacing: .04em; overflow-wrap: anywhere; }
+ .collab-section__contact a span { margin-left: 5px; font-size: 15px; }
+-@media (max-width: 700px) { .collab-section__contact img { width: 58px; height: 58px; flex-basis: 58px; } }
+\ No newline at end of file
++@media (max-width: 700px) { .collab-section__contact img { width: 58px; height: 58px; flex-basis: 58px; } }
++/* Section transitions: each marked section slides up over the one before it as a
++   rounded sheet. The hero stays pinned underneath until it is covered. */
++.lh-hero {
++  position: sticky;
++  top: 0;
++  z-index: 1;
++  margin-bottom: 0;
++}
++.sheet-over {
++  position: relative;
++  z-index: 2;
++  border-radius: clamp(40px, 5vw, 60px) clamp(40px, 5vw, 60px) 0 0;
++  box-shadow: 0 -24px 60px rgba(10, 5, 16, .45);
++}
++.sheet-over--collab {
++  margin-top: calc(-1 * clamp(40px, 4vw, 56px));
++  z-index: 4;
++}
++@media (prefers-reduced-motion: reduce) {
++  .lh-hero { position: relative; }
++}
+diff --git a/package-lock.json b/package-lock.json
+index 94b115b..17015db 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1949,9 +1949,6 @@
+         "arm"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -1969,9 +1966,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -1989,9 +1983,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -2009,9 +2000,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -2029,9 +2017,6 @@
+         "s390x"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -2049,9 +2034,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -2069,9 +2051,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -2089,9 +2068,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -2109,9 +2085,6 @@
+         "arm"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2135,9 +2108,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2161,9 +2131,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2187,9 +2154,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2213,9 +2177,6 @@
+         "s390x"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2239,9 +2200,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2265,9 +2223,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2291,9 +2246,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -2473,9 +2425,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3891,9 +3840,6 @@
+         "arm"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3908,9 +3854,6 @@
+         "arm"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3925,9 +3868,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3942,9 +3882,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3959,9 +3896,6 @@
+         "loong64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3976,9 +3910,6 @@
+         "loong64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3993,9 +3924,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4010,9 +3938,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4027,9 +3952,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4044,9 +3966,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4061,9 +3980,6 @@
+         "s390x"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4078,9 +3994,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4095,9 +4008,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4484,9 +4394,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4504,9 +4411,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4524,9 +4428,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -4544,9 +4445,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -8107,9 +8005,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -8131,9 +8026,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -8155,9 +8047,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -8179,9 +8068,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
