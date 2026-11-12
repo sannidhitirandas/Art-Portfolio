@@ -110,7 +110,7 @@
   background: rgba(12, 7, 18, 0.96);
   opacity: 0;
   pointer-events: none;
-  touch-action: pan-y;
+  touch-action: none;
   transition: opacity 0.3s ease;
 }
 .gc__open.is-on {
