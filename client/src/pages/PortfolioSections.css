@@ -280,9 +280,9 @@
   .lh-hero { margin-bottom: -58px; }
   .lh-hero::after { height: 150px; }
   .about-gallery-section {
-    height: 88svh;
-    min-height: 620px;
-    padding: 150px 26px 100px;
+    height: auto;
+    min-height: max(100svh, 760px);
+    padding: 150px 26px 110px;
     margin-bottom: -48px;
   }
   .about-gallery-section__nav { left: 26px; }
