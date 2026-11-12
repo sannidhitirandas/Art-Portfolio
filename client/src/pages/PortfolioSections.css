@@ -507,3 +507,11 @@
     padding-bottom: max(76px, calc(env(safe-area-inset-bottom, 0px) + 56px));
   }
 }
+
+/* Keep the full About biography inside the scrollable mobile sheet. */
+@media (max-width: 700px) {
+  .about-gallery-section {
+    height: auto;
+    min-height: max(100svh, 760px);
+  }
+}
