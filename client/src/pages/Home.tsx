@@ -123,7 +123,7 @@ export default function Home() {
         </div>
         <div className="collab-section__details">
           <div className="collab-stat"><strong>29K+</strong><span>Instagram community</span></div>
-          <div className="collab-stat"><strong>14.6M+</strong><span>Most-viewed Reel</span></div>
+          <div className="collab-stat"><strong>14.6M+</strong><span>Most-viewed Post</span></div>
           <div className="collab-section__formats">
             <p className="eyebrow">CREATIVE PARTNERSHIPS</p>
             <ul>
