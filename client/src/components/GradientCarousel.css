@@ -92,7 +92,11 @@
   letter-spacing: 3px;
 }
 
-@media (max-width: 600px) { .gc { height: 460px; } }
+@media (max-width: 600px) {
+  .gc { height: 460px; }
+  .gc__open { padding: 14px; }
+  .gc__open > img { max-width: 88vw; max-height: 72svh; }
+}
 
 
 /* Full-size artwork viewer with native horizontal swipe navigation. */
@@ -102,7 +106,7 @@
   z-index: 5;
   display: grid;
   place-items: center;
-  padding: 12px;
+  padding: clamp(16px, 4vw, 44px);
   background: rgba(12, 7, 18, 0.96);
   opacity: 0;
   pointer-events: none;
@@ -115,8 +119,8 @@
 }
 .gc__open > img {
   display: block;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: min(86vw, 1100px);
+  max-height: min(78vh, 820px);
   width: auto;
   height: auto;
   object-fit: contain;
