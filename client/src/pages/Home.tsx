@@ -21,27 +21,34 @@ const navigation = [
 
 export default function Home() {
   const aboutSectionRef = useRef<HTMLElement>(null);
+  const spinSectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const section = aboutSectionRef.current;
-    if (!section) return;
+    const sections = [
+      aboutSectionRef.current,
+      spinSectionRef.current,
+    ].filter((section): section is HTMLElement => section !== null);
+
+    if (!sections.length) return;
 
     if (!("IntersectionObserver" in window)) {
-      section.classList.add("is-revealed");
+      sections.forEach(section => section.classList.add("is-revealed"));
       return;
     }
 
     const observer = new IntersectionObserver(
       entries => {
-        if (entries.some(entry => entry.isIntersecting)) {
-          section.classList.add("is-revealed");
-          observer.disconnect();
-        }
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            (entry.target as HTMLElement).classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        });
       },
-      { threshold: 0.12 }
+      { threshold: 0.08 }
     );
 
-    observer.observe(section);
+    sections.forEach(section => observer.observe(section));
     return () => observer.disconnect();
   }, []);
 
@@ -112,7 +119,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="showcase-section showcase-section--spin" id="my-art" aria-label="Spin shutter artwork gallery">
+      <section ref={spinSectionRef} className="showcase-section showcase-section--spin" id="my-art" aria-label="Spin shutter artwork gallery">
         <SpinShutter />
       </section>
 

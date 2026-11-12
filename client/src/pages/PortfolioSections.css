@@ -125,6 +125,27 @@
   padding: 0;
   background: #21152b;
 }
+.showcase-section--spin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0;
+  clip-path: circle(0% at 50% 50%);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(243, 187, 210, .28), transparent 38%),
+    radial-gradient(ellipse at 50% 50%, #09070d 0%, #171020 68%, #30203d 100%);
+}
+.showcase-section--spin.is-revealed::before {
+  animation: spin-ink-reveal 1.25s cubic-bezier(.7, 0, .25, 1) both;
+}
+@keyframes spin-ink-reveal {
+  0% { opacity: 1; clip-path: circle(0% at 50% 50%); }
+  38% { opacity: 1; clip-path: circle(85% at 50% 50%); }
+  72% { opacity: .82; clip-path: circle(145% at 50% 50%); }
+  100% { opacity: 0; clip-path: circle(155% at 50% 50%); }
+}
 .showcase-section--carousel,
 .showcase-section--ribbon {
   padding: clamp(70px, 9vw, 120px) 0 0;
@@ -268,7 +289,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .portfolio-page { scroll-behavior: auto; }
-  .about-gallery-section.is-revealed::before { animation-duration: 1ms; }
+  .about-gallery-section.is-revealed::before,
+  .showcase-section--spin.is-revealed::before { animation-duration: 1ms; }
 }
 
 
