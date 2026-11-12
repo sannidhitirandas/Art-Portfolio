@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { useEffect, useRef } from "react";
 import LivingPortrait from "../components/LivingPortrait";
 import ReelGallery from "../components/ReelGallery";
 import SpinShutter from "../components/SpinShutter";
@@ -19,6 +20,31 @@ const navigation = [
 ];
 
 export default function Home() {
+  const aboutSectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = aboutSectionRef.current;
+    if (!section) return;
+
+    if (!("IntersectionObserver" in window)) {
+      section.classList.add("is-revealed");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          section.classList.add("is-revealed");
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.12 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main id="top" className="portfolio-page">
       <section className="lh-hero" id="sunny" aria-labelledby="hero-title">
@@ -54,7 +80,7 @@ export default function Home() {
       </section>
 
       {/* The reels and About copy are deliberately one shared section. */}
-      <section className="about-gallery-section" id="about" aria-labelledby="about-title">
+      <section ref={aboutSectionRef} className="about-gallery-section" id="about" aria-labelledby="about-title">
         <div className="about-gallery-section__reels" aria-hidden="true">
           <ReelGallery
             rows={reelRows}

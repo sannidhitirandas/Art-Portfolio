@@ -7,6 +7,27 @@
 }
 
 /* About is layered over the moving reel canvas in one shared scroll section. */
+.about-gallery-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(243, 187, 210, .22), transparent 58%),
+    linear-gradient(135deg, #4a3153 0%, #30203d 52%, #67435e 100%);
+  transform: translate3d(0, 0, 0);
+}
+.about-gallery-section.is-revealed::before {
+  animation: about-soft-reveal 1.15s cubic-bezier(.76, 0, .24, 1) forwards;
+  will-change: transform;
+}
+@keyframes about-soft-reveal {
+  0% { transform: translate3d(0, 0, 0); }
+  72% { transform: translate3d(0, -96%, 0); }
+  100% { transform: translate3d(0, -106%, 0); }
+}
+
 .about-gallery-section {
   position: relative;
   isolation: isolate;
@@ -247,6 +268,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .portfolio-page { scroll-behavior: auto; }
+  .about-gallery-section.is-revealed::before { animation-duration: 1ms; }
 }
 
 
