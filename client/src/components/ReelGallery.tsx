@@ -540,7 +540,7 @@ export default function ReelGallery(props: ReelGalleryProps) {
               ctx.font = `500 ${Math.max(7, Math.round(ph * 0.075))}px ${fontFamily}`;
               ctx.textAlign = "center";
               ctx.textBaseline = "middle";
-              ctx.fillText("YOUR ART GOES HERE", pw / 2, ph / 2);
+              ctx.fillText(" ", pw / 2, ph / 2);
             }
             ctx.restore();
           }
