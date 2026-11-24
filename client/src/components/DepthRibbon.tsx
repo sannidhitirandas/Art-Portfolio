@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import "./DepthRibbon.css";
+import { playArtworkClickSound, playArtworkSwipeSound } from "../lib/artworkSounds";
 import {
   buildPath,
   basis,
@@ -855,7 +856,10 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
         if (!c.focusOnClick) return;
         const pt = local(e);
         const hit = hitTest(pt.x, pt.y);
-        if (hit >= 0) actions.doFocus(hit);
+        if (hit >= 0) {
+          playArtworkClickSound();
+          actions.doFocus(hit);
+        }
       }
     };
 
@@ -942,6 +946,7 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
             if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
               e.preventDefault();
               suppressOverlayClick.current = true;
+              playArtworkSwipeSound();
               actions.doFocus(s.focusCard + (dx < 0 ? 1 : -1));
               window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
             }

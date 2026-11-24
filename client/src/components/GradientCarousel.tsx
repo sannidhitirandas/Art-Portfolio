@@ -8,6 +8,7 @@ import {
   type CSSProperties,
 } from "react";
 import "./GradientCarousel.css";
+import { playArtworkClickSound, playArtworkSwipeSound } from "../lib/artworkSounds";
 
 /* -------------------------------------------------------------------------- */
 /*  Props                                                                      */
@@ -524,6 +525,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
       if (card) {
         const index = Number(card.dataset.index);
         goTo(index);
+        playArtworkClickSound();
         setOpenArt(index);
       }
       return;
@@ -700,6 +702,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
           if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
             e.preventDefault();
             suppressOverlayClick.current = true;
+            playArtworkSwipeSound();
             const next = mod(openArt + (dx < 0 ? 1 : -1), count);
             setOpenArt(next);
             goTo(next);
