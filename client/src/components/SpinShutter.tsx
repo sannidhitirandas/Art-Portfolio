@@ -844,11 +844,13 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
         } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
           e.preventDefault();
           const nextArt = mod(openArt + 1, total);
+          playArtworkSwipeSound();
           api.show(nextArt);
           setOpenArt(nextArt);
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
           e.preventDefault();
           const prevArt = mod(openArt - 1, total);
+          playArtworkSwipeSound();
           api.show(prevArt);
           setOpenArt(prevArt);
         }
@@ -948,9 +950,8 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
           aria-label={openItem?.title ?? openItem?.alt ?? "Artwork"}
           aria-hidden={openArt < 0}
           onPointerDown={(e) => {
-            if (e.pointerType === "touch") {
-              overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
-            }
+            // Track mouse, pen, and touch so every horizontal swipe has the same feedback.
+            overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
           }}
           onPointerUp={(e) => {
             const start = overlaySwipeStart.current;

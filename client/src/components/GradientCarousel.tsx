@@ -544,11 +544,13 @@ export default function GradientCarousel(props: GradientCarouselProps) {
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         const next = mod(openArt + 1, count);
+        playArtworkSwipeSound();
         setOpenArt(next);
         goTo(next);
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         const previous = mod(openArt - 1, count);
+        playArtworkSwipeSound();
         setOpenArt(previous);
         goTo(previous);
       }
@@ -691,7 +693,8 @@ export default function GradientCarousel(props: GradientCarouselProps) {
         aria-label="Artwork"
         aria-hidden={openArt < 0}
         onPointerDown={(e) => {
-          if (e.pointerType === "touch") overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
+          // Track mouse, pen, and touch so every horizontal swipe has the same feedback.
+          overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
         }}
         onPointerUp={(e) => {
           const start = overlaySwipeStart.current;

@@ -872,14 +872,20 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
         actions.release();
       } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
-        if (s.focusCard >= 0) actions.doFocus(s.focusCard + 1);
+        if (s.focusCard >= 0) {
+          playArtworkSwipeSound();
+          actions.doFocus(s.focusCard + 1);
+        }
         else {
           actions.diveBackIn();
           actions.travel(1);
         }
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
-        if (s.focusCard >= 0) actions.doFocus(s.focusCard - 1 + total);
+        if (s.focusCard >= 0) {
+          playArtworkSwipeSound();
+          actions.doFocus(s.focusCard - 1 + total);
+        }
         else {
           actions.diveBackIn();
           actions.travel(-1);
@@ -934,7 +940,8 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           aria-label={open?.title ?? open?.alt ?? "Artwork"}
           aria-hidden={!(overlayShown && open)}
           onPointerDown={(e) => {
-            if (e.pointerType === "touch") overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
+            // Track mouse, pen, and touch so every horizontal swipe has the same feedback.
+            overlaySwipeStart.current = { x: e.clientX, y: e.clientY };
           }}
           onPointerUp={(e) => {
             const start = overlaySwipeStart.current;

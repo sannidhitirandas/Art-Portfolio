@@ -12,9 +12,12 @@ function playArtworkSound(path: string) {
 
   audio.pause();
   audio.currentTime = 0;
-  void audio.play().catch(() => {
-    // Playback can be blocked by browser settings; the gallery still works normally.
-  });
+  const playback = audio.play();
+  if (playback) {
+    void playback.catch((error: unknown) => {
+      console.warn(`Artwork sound could not play from ${path}:`, error);
+    });
+  }
 }
 
 export function playArtworkClickSound() {
