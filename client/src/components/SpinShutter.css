@@ -2,7 +2,10 @@
 
 .spin-shutter {
   padding: 100px 4vw;
-  background: #21152b;
+  background:
+    radial-gradient(ellipse at 16% 18%, rgba(96, 58, 129, .22), transparent 40%),
+    radial-gradient(ellipse at 84% 72%, rgba(78, 48, 116, .2), transparent 42%),
+    #0b0810;
   color: #fff4f8;
   text-align: center;
   overflow: hidden;
