@@ -10,23 +10,16 @@ export default function App() {
     const backgroundMusic = new Audio("/sounds/background-music.mp3");
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.35;
+    backgroundMusic.preload = "auto";
 
-    const startBackgroundMusic = () => {
-      void backgroundMusic.play().then(() => {
-        window.removeEventListener("pointerdown", startBackgroundMusic);
-        window.removeEventListener("keydown", startBackgroundMusic);
-      }).catch((error) => {
-        console.warn("Background music could not start:", error);
-      });
-    };
-
-    window.addEventListener("pointerdown", startBackgroundMusic);
-    window.addEventListener("keydown", startBackgroundMusic);
+    // Request playback immediately when the page loads. Browsers may still
+    // block audible autoplay according to the visitor's autoplay settings.
+    void backgroundMusic.play().catch((error) => {
+      console.warn("Browser blocked background music autoplay:", error);
+    });
 
     return () => {
       document.removeEventListener("click", handleWebsiteClick);
-      window.removeEventListener("pointerdown", startBackgroundMusic);
-      window.removeEventListener("keydown", startBackgroundMusic);
       backgroundMusic.pause();
       backgroundMusic.src = "";
     };
