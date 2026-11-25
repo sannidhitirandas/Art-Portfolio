@@ -830,6 +830,11 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
         s.dragging = false;
         suppressStageClick.current = true;
         if (performance.now() - d.lt > 90) s.vel = 0;
+      } else if (d.moved < 8) {
+        // Play on the trusted pointer-up gesture. This is more reliable than
+        // waiting for the synthetic click after pointer capture is released.
+        const pt = local(e);
+        if (hitTest(pt.x, pt.y)) playArtworkClickSound();
       }
     };
 
@@ -915,7 +920,6 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
             const pt = local(e);
             const hit = hitTest(pt.x, pt.y);
             if (!hit) return;
-            playArtworkClickSound();
             if (live.current.p.openOnClick) open(hit.art);
             else if (hit.art === sim.current.frontArt && sim.current.target === null) open(hit.art);
             else api.show(hit.art);
