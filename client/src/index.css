@@ -3,7 +3,7 @@
 :root {
   color-scheme: dark;
   font-family: "Kanit", system-ui, sans-serif;
-  background: linear-gradient(135deg, #160d25 0%, #25113d 32%, #39205d 66%, #1b102d 100%);
+  background: #21152b;
   color: #fff4f8;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,7 +13,7 @@
 
 * { box-sizing: border-box; }
 html, body, #root { width: 100%; min-width: 320px; min-height: 100%; margin: 0; }
-body { min-height: 100vh; background: linear-gradient(135deg, #160d25 0%, #25113d 32%, #39205d 66%, #1b102d 100%) fixed; }
+body { min-height: 100vh; background: #21152b; }
 a { color: inherit; text-decoration: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
 ::selection { color: #21152b; background: #f3bbd2; }
