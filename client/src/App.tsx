@@ -11,33 +11,45 @@ export default function App() {
     backgroundMusic.loop = true;
     backgroundMusic.volume = 0.35;
     backgroundMusic.preload = "auto";
+    backgroundMusic.autoplay = true;
 
     let musicStarted = false;
-
-    const startBackgroundMusic = () => {
-      if (musicStarted) return;
-
-      void backgroundMusic.play().then(() => {
-        musicStarted = true;
-        removeStartListeners();
-      }).catch((error) => {
-        // Browsers commonly reject audible autoplay until a user gesture.
-        console.info("Background music is waiting for the first user interaction:", error);
-      });
-    };
 
     const removeStartListeners = () => {
       document.removeEventListener("pointerdown", startBackgroundMusic, true);
       document.removeEventListener("keydown", startBackgroundMusic, true);
       document.removeEventListener("touchstart", startBackgroundMusic, true);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pageshow", startBackgroundMusic);
     };
 
-    // Try immediately. If autoplay is blocked, retry during the first
-    // trusted interaction so playback begins without a separate music button.
+    const startBackgroundMusic = () => {
+      if (musicStarted) return;
+
+      // Attempt playback as soon as the app loads. Browsers may reject
+      // audible autoplay until the visitor interacts with the page.
+      void backgroundMusic.play().then(() => {
+        musicStarted = true;
+        removeStartListeners();
+      }).catch(() => {
+        // Keep trying on page visibility and on the first touch, pointer,
+        // or keyboard interaction. No dedicated music-button click needed.
+      });
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") startBackgroundMusic();
+    };
+
+    // Start immediately on page load, then retry when the browser is ready
+    // or the visitor returns to the tab / interacts in any normal way.
     startBackgroundMusic();
+    backgroundMusic.addEventListener("canplay", startBackgroundMusic, { once: true });
     document.addEventListener("pointerdown", startBackgroundMusic, true);
     document.addEventListener("keydown", startBackgroundMusic, true);
     document.addEventListener("touchstart", startBackgroundMusic, true);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pageshow", startBackgroundMusic);
 
     return () => {
       document.removeEventListener("click", handleWebsiteClick);
