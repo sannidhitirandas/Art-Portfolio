@@ -8,7 +8,6 @@ import {
   type CSSProperties,
 } from "react";
 import "./SpinShutter.css";
-import { playArtworkClickSound, playArtworkSwipeSound } from "../lib/artworkSounds";
 
 import { spinShutterArtworks } from "../data/SpinShutter";
 import {
@@ -844,13 +843,11 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
         } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
           e.preventDefault();
           const nextArt = mod(openArt + 1, total);
-          playArtworkSwipeSound();
           api.show(nextArt);
           setOpenArt(nextArt);
         } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
           e.preventDefault();
           const prevArt = mod(openArt - 1, total);
-          playArtworkSwipeSound();
           api.show(prevArt);
           setOpenArt(prevArt);
         }
@@ -915,7 +912,6 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
             const pt = local(e);
             const hit = hitTest(pt.x, pt.y);
             if (!hit) return;
-            playArtworkClickSound();
             if (live.current.p.openOnClick) open(hit.art);
             else if (hit.art === sim.current.frontArt && sim.current.target === null) open(hit.art);
             else api.show(hit.art);
@@ -962,7 +958,6 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
             if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
               e.preventDefault();
               suppressOverlayClick.current = true;
-              playArtworkSwipeSound();
               const next = mod(openArt + (dx < 0 ? 1 : -1), live.current.items.length);
               api.show(next);
               setOpenArt(next);
