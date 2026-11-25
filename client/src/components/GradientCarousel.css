@@ -163,3 +163,10 @@
   line-height: 1;
   cursor: pointer;
 }
+
+
+/* The opened artwork is rendered once in the foreground viewer, not again in the carousel. */
+.gc.is-art-open .gc__card.is-open-art-source {
+  opacity: 0 !important;
+  visibility: hidden;
+}
