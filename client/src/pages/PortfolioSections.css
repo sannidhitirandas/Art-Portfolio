@@ -126,11 +126,11 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  background: #171020;
+  background: linear-gradient(135deg, #1b102d 0%, #2b1747 48%, #1b102d 100%);
 }
 .showcase-section--spin {
   padding: 0;
-  background: #21152b;
+  background: linear-gradient(135deg, #160d25 0%, #2d1748 52%, #1b102d 100%);
 }
 .showcase-section--spin::after,
 .showcase-section--carousel::before {
@@ -205,7 +205,7 @@
   grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
   align-items: center;
   gap: clamp(40px, 8vw, 120px);
-  background: #171020;
+  background: linear-gradient(135deg, #1b102d 0%, #2b1747 48%, #1b102d 100%);
 }
 .contact-section h2 {
   margin: 22px 0 0;
