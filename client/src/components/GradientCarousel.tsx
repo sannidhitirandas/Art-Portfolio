@@ -8,6 +8,7 @@ import {
   type CSSProperties,
 } from "react";
 import "./GradientCarousel.css";
+import { playArtworkSwipeSound } from "../lib/artworkSounds";
 
 /* -------------------------------------------------------------------------- */
 /*  Props                                                                      */
@@ -524,6 +525,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
       if (card) {
         const index = Number(card.dataset.index);
         goTo(index);
+        playArtworkSwipeSound();
         setOpenArt(index);
       }
       return;
