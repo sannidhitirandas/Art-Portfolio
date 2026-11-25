@@ -967,20 +967,19 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
           {open && (
             <figure className="dr__figure">
               <img src={open.src} alt={open.alt} draggable={false} />
-
+              <button
+                type="button"
+                className="dr__close"
+                aria-label="Close artwork and ride on"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  actions.release();
+                }}
+              >
+                ×
+              </button>
             </figure>
           )}
-          <button
-            type="button"
-            className="dr__close"
-            aria-label="Close artwork and ride on"
-            onClick={(e) => {
-              e.stopPropagation();
-              actions.release();
-            }}
-          >
-            ×
-          </button>
         </div>
       </div>
     );
