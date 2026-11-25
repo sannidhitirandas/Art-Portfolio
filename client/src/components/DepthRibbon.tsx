@@ -9,7 +9,6 @@ import {
   type ReactNode,
 } from "react";
 import "./DepthRibbon.css";
-import { playArtworkClickSound, playArtworkSwipeSound } from "../lib/artworkSounds";
 import {
   buildPath,
   basis,
@@ -857,7 +856,6 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
         const pt = local(e);
         const hit = hitTest(pt.x, pt.y);
         if (hit >= 0) {
-          playArtworkClickSound();
           actions.doFocus(hit);
         }
       }
@@ -873,7 +871,6 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
       } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
         if (s.focusCard >= 0) {
-          playArtworkSwipeSound();
           actions.doFocus(s.focusCard + 1);
         }
         else {
@@ -883,7 +880,6 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
         if (s.focusCard >= 0) {
-          playArtworkSwipeSound();
           actions.doFocus(s.focusCard - 1 + total);
         }
         else {
@@ -953,7 +949,6 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
             if (Math.abs(dx) > 42 && Math.abs(dx) > Math.abs(dy) * 1.2) {
               e.preventDefault();
               suppressOverlayClick.current = true;
-              playArtworkSwipeSound();
               actions.doFocus(s.focusCard + (dx < 0 ? 1 : -1));
               window.setTimeout(() => { suppressOverlayClick.current = false; }, 350);
             }
