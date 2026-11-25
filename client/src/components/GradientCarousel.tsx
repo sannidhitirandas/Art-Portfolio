@@ -719,19 +719,21 @@ export default function GradientCarousel(props: GradientCarouselProps) {
         }}
       >
         {openArt >= 0 && images[openArt] && (
-          <img src={images[openArt]} alt="Artwork" draggable={false} />
+          <figure className="gc__figure">
+            <img src={images[openArt]} alt="Artwork" draggable={false} />
+            <button
+              type="button"
+              className="gc__close"
+              aria-label="Close artwork"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenArt(-1);
+              }}
+            >
+              ×
+            </button>
+          </figure>
         )}
-        <button
-          type="button"
-          className="gc__close"
-          aria-label="Close artwork"
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpenArt(-1);
-          }}
-        >
-          ×
-        </button>
       </div>
     </div>
   );
