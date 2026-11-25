@@ -139,8 +139,7 @@
 .spin-orbit__open.is-on {
   opacity: 1;
   pointer-events: auto;
-  background: rgba(12, 7, 18, 0.96);
-  backdrop-filter: blur(4px);
+  background: transparent;
 }
 
 .spin-orbit__figure {
@@ -148,7 +147,8 @@
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  width: min(86vw, 1100px);
+  position: relative;
+  width: fit-content;
   max-width: 100%;
   max-height: 82vh;
   margin: 0;
@@ -167,8 +167,8 @@
   max-width: 100%;
   max-height: min(76vh, 760px);
   object-fit: contain;
-  border-radius: 14px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .spin-orbit__figure figcaption {
@@ -192,8 +192,8 @@
 
 .spin-orbit__close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  right: 8px;
   width: 40px;
   height: 40px;
   border: 1px solid rgba(255, 244, 248, 0.4);
