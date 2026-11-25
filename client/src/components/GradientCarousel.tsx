@@ -232,6 +232,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
   const [palVersion, setPalVersion] = useState(0);
   const [failed, setFailed] = useState<Set<number>>(() => new Set());
   const [openArt, setOpenArt] = useState(-1);
+  const pressedCardIndex = useRef<number | null>(null);
   const overlaySwipeStart = useRef<{ x: number; y: number } | null>(null);
   const suppressOverlayClick = useRef(false);
 
@@ -482,6 +483,8 @@ export default function GradientCarousel(props: GradientCarouselProps) {
   /* ---- drag / click ---- */
   const onPointerDown = (e: React.PointerEvent) => {
     if (e.button > 0) return;
+    const pressedCard = (e.target as HTMLElement).closest<HTMLElement>("[data-index]");
+    pressedCardIndex.current = pressedCard ? Number(pressedCard.dataset.index) : null;
     const s = sim.current;
     s.dragging = true;
     s.target = null;
@@ -520,16 +523,19 @@ export default function GradientCarousel(props: GradientCarouselProps) {
       stageRef.current.releasePointerCapture(e.pointerId);
     }
     if (s.moved < 5) {
-      // Pointer capture retargets pointerup to the stage; hit-test beneath the finger.
+      // Pointer capture can retarget pointerup to the stage, so use the card
+      // recorded on pointerdown, with a hit-test fallback for touch devices.
       const card = document.elementFromPoint(e.clientX, e.clientY)?.closest<HTMLElement>("[data-index]");
-      if (card) {
-        const index = Number(card.dataset.index);
+      const index = pressedCardIndex.current ?? (card ? Number(card.dataset.index) : null);
+      pressedCardIndex.current = null;
+      if (index !== null && Number.isFinite(index)) {
         goTo(index);
         playArtworkSwipeSound();
         setOpenArt(index);
       }
       return;
     }
+    pressedCardIndex.current = null;
     s.lastInteract = performance.now();
     if (performance.now() - s.lastT > 90) s.vel = 0;
     s.vel = clamp(s.vel, -14, 14);
