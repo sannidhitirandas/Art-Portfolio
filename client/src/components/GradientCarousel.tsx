@@ -615,7 +615,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
   return (
     <div
       ref={rootRef}
-      className={`gc${props.className ? ` ${props.className}` : ""}`}
+      className={`gc${openArt >= 0 ? " is-art-open" : ""}${props.className ? ` ${props.className}` : ""}`}
       style={rootStyle}
       tabIndex={0}
       role="group"
