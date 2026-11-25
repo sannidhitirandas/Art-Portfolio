@@ -661,7 +661,7 @@ export default function GradientCarousel(props: GradientCarouselProps) {
           return (
             <div
               key={i}
-              className="gc__card"
+              className={`gc__card${openArt === i ? " is-open-art-source" : ""}`}
               data-index={i}
               ref={(el) => {
                 if (el) cardRefs.current.set(i, el);
