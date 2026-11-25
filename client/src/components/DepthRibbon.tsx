@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import "./DepthRibbon.css";
+import { playArtworkSwipeSound } from "../lib/artworkSounds";
 import {
   buildPath,
   basis,
@@ -856,6 +857,7 @@ const DepthRibbon = forwardRef<DepthRibbonHandle, DepthRibbonProps>(
         const pt = local(e);
         const hit = hitTest(pt.x, pt.y);
         if (hit >= 0) {
+          playArtworkSwipeSound();
           actions.doFocus(hit);
         }
       }
