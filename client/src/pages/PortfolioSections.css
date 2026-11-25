@@ -1,7 +1,7 @@
 .portfolio-page {
   width: 100%;
   overflow-x: clip;
-  background: #21152b;
+  background: linear-gradient(135deg, #160d25 0%, #25113d 32%, #39205d 66%, #1b102d 100%);
   color: #fff4f8;
   scroll-behavior: smooth;
 }
@@ -33,7 +33,7 @@
   padding: clamp(170px, 18vw, 220px) clamp(26px, 9vw, 140px) clamp(100px, 12vw, 160px);
   margin-bottom: -72px;
   overflow: hidden;
-  background: #171020;
+  background: linear-gradient(135deg, #1b102d 0%, #2b1747 48%, #1b102d 100%);
 }
 .about-gallery-section::after {
   content: "";
@@ -156,9 +156,9 @@
 }
 .showcase-section--carousel {
   background:
-    radial-gradient(ellipse at 14% 24%, rgba(130, 67, 103, .28), transparent 42%),
-    radial-gradient(ellipse at 88% 30%, rgba(63, 112, 104, .24), transparent 44%),
-    #171020;
+    radial-gradient(ellipse at 14% 24%, rgba(151, 92, 190, .34), transparent 42%),
+    radial-gradient(ellipse at 88% 30%, rgba(94, 57, 151, .3), transparent 44%),
+    linear-gradient(135deg, #1b102d 0%, #32194f 52%, #1b102d 100%);
 }
 .showcase-section__heading {
   position: relative;
@@ -182,7 +182,7 @@
 .depth-ribbon-frame {
   height: clamp(560px, 72vw, 820px);
   min-height: 520px;
-  background: #160f1e;
+  background: linear-gradient(135deg, #1a102b 0%, #32194f 52%, #1a102b 100%);
 }
 .depth-ribbon-frame > .dr {
   height: 100%;
@@ -268,7 +268,7 @@
   justify-content: space-between;
   gap: 20px;
   padding: 28px clamp(26px, 9vw, 140px);
-  background: #100b16;
+  background: linear-gradient(120deg, #120b20 0%, #281440 52%, #160d25 100%);
   color: #a997b0;
   font-size: 10px;
 }
@@ -388,7 +388,7 @@
   grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
   align-items: center;
   gap: clamp(48px, 9vw, 130px);
-  background: radial-gradient(ellipse at 82% 35%, rgba(119, 72, 111, .2), transparent 48%), #21152b;
+  background: radial-gradient(ellipse at 82% 35%, rgba(150, 91, 190, .28), transparent 48%), linear-gradient(135deg, #160d25 0%, #2d1748 52%, #1b102d 100%);
 }
 .collab-section__intro h2 {
   margin: 22px 0 0;
