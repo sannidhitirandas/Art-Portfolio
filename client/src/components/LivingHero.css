@@ -3,7 +3,7 @@
 
 .lh-hero {
   --lh-ink-soft: #d9c6e6;
-  --lh-grad-top: #7d6591;
+  --lh-grad-top: #c6a5ed;
   --lh-grad-bottom: #f3bbd2;
   --lh-btn-grad: linear-gradient(123deg, #1c0a24 7%, #c0398f 37%, #7a3fc0 72%, #e08a4a 100%);
   position: relative;
@@ -14,7 +14,7 @@
   max-height: 1200px;
   padding-inline: max(16px, env(safe-area-inset-left, 0px));
   overflow: clip;
-  background: var(--plum, #21152b);
+  background: linear-gradient(135deg, #160d25 0%, #2d1748 48%, #432568 72%, #1b102d 100%);
   font-family: "Kanit", system-ui, sans-serif;
 }
 
