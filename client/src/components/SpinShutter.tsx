@@ -8,6 +8,7 @@ import {
   type CSSProperties,
 } from "react";
 import "./SpinShutter.css";
+import { playArtworkSwipeSound } from "../lib/artworkSounds";
 
 import { spinShutterArtworks } from "../data/SpinShutter";
 import {
@@ -391,6 +392,7 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
       cbs.current.onSelect?.(item, art);
       if (live.current.p.openOnClick) {
         if (!item.src) return;
+        playArtworkSwipeSound();
         sim.current.modal = true;
         api.show(art); // bring it to the front while it is open
         setOpenArt(art);
