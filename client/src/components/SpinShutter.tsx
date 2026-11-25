@@ -978,20 +978,19 @@ export const SpinShutter = forwardRef<SpinShutterHandle, SpinShutterProps>(
           {openItem && (
             <figure className="spin-orbit__figure">
               <img src={openItem.src} alt={openItem.alt} draggable={false} />
-
+              <button
+                type="button"
+                className="spin-orbit__close"
+                aria-label="Close artwork"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeOpen();
+                }}
+              >
+                ×
+              </button>
             </figure>
           )}
-          <button
-            type="button"
-            className="spin-orbit__close"
-            aria-label="Close artwork"
-            onClick={(e) => {
-              e.stopPropagation();
-              closeOpen();
-            }}
-          >
-            ×
-          </button>
         </div>
       </div>
     );
